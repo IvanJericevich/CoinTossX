@@ -2,6 +2,7 @@ package crossing;
 
 import com.carrotsearch.hppc.LongObjectHashMap;
 import com.carrotsearch.hppc.ObjectArrayList;
+import crossing.tradingSessions.TradingSessionFactory;
 import dao.OrderBookDAO;
 import dao.TraderDAO;
 import junitparams.JUnitParamsRunner;
@@ -13,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import sbe.msg.marketData.TradingSessionEnum;
 import unsafe.UnsafeUtil;
 
 import java.io.IOException;
@@ -31,9 +33,11 @@ public class CrossingProcessorTest {
     public void setup() throws IOException {
         String dataPath = Paths.get("").toAbsolutePath().getParent() + "/data";
         LongObjectHashMap<OrderBook> orderBooks = OrderBookDAO.loadOrderBooks(dataPath);
+        TradingSessionFactory.initTradingSessionProcessors(orderBooks);
         TraderDAO.loadTraders(dataPath);
         crossingProcessor = new CrossingProcessor(orderBooks);
         expectedCrossingProcessor = new CrossingProcessor(orderBooks);
+        MatchingContext.INSTANCE.setOrderBookTradingSession(1, TradingSessionEnum.ContinuousTrading);
     }
 
     @After

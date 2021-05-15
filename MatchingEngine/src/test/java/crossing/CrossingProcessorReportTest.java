@@ -2,11 +2,13 @@ package crossing;
 
 import com.carrotsearch.hppc.LongObjectHashMap;
 import common.MessageGenerator;
+import crossing.tradingSessions.TradingSessionFactory;
 import dao.OrderBookDAO;
 import dao.TraderDAO;
 import orderBook.OrderBook;
 import org.junit.Before;
 import org.junit.Test;
+import sbe.msg.marketData.TradingSessionEnum;
 import sbe.reader.BusinessRejectReader;
 import sbe.reader.ExecutionReportReader;
 import uk.co.real_logic.agrona.DirectBuffer;
@@ -25,8 +27,10 @@ public class CrossingProcessorReportTest {
     public void setup() throws IOException {
         String dataPath = Paths.get("").toAbsolutePath().getParent() + "/data";
         LongObjectHashMap<OrderBook> orderBooks = OrderBookDAO.loadOrderBooks(dataPath);
+        TradingSessionFactory.initTradingSessionProcessors(orderBooks);
         TraderDAO.loadTraders(dataPath);
         crossingProcessor = new CrossingProcessor(orderBooks);
+        MatchingContext.INSTANCE.setOrderBookTradingSession(1, TradingSessionEnum.ContinuousTrading);
     }
 
     @Test
