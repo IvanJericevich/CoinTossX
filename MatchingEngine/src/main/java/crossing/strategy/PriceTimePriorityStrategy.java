@@ -99,6 +99,7 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
             }
 
             MarketData.INSTANCE.buildAddOrder(orderEntry, false);
+            ExecutionReportData.INSTANCE.addFillGroup(orderEntry.getClientOrderId(), orderEntry.getPrice(), orderEntry.getDisplayQuantity());
         }
     }
 
@@ -309,7 +310,7 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
         orderBook.setLasTradedPrice(price);
         orderBook.getTrades().add(trade);
         ExecutionReportData.INSTANCE.setExecutionType(ExecutionTypeEnum.Trade);
-        ExecutionReportData.INSTANCE.addFillGroup(price,(int)quantity);
+        ExecutionReportData.INSTANCE.addFillGroup(clientOrderId, price,(int)quantity);
         MarketData.INSTANCE.addTrade(trade.getId(),clientOrderId,price,quantity,executedTime);
         setReferencePrice(price);
     }

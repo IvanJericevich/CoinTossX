@@ -61,8 +61,8 @@ public class ContinuousTradingProcessor implements TradingSessionProcessor {
     }
 
     private void initPostProcessors(){
-        postProcessors = new ObjectArrayList<>(2);
-        postProcessors.add(new StopOrderPostProcessor());
+        postProcessors = new ObjectArrayList<>(1);
+        //postProcessors.add(new StopOrderPostProcessor());
         postProcessors.add(new ExpireOrderPostProcessor());
     }
 

@@ -4,6 +4,6 @@ import uk.co.real_logic.agrona.DirectBuffer;
 
 public interface LOBManager {
 
-    DirectBuffer processOrder(DirectBuffer message);
+    String processOrder(DirectBuffer message);
     boolean isClientMarketDataRequest();
 }

@@ -247,11 +247,34 @@ public class ServicesImpl implements Services,Serializable {
 
                 //save orders
                 Collection<OrderVO> submittedOrders = offHeapStorage.getSubmittedOrders(securityId);
-                saveOrders(submittedOrders, securityId, testResultsDir);
+                //saveOrders(submittedOrders, securityId, testResultsDir);
 
                 //save trades
                 Collection<TradeVO> trades = offHeapStorage.getTrades(securityId);
-                saveTrades(trades, securityId, testResultsDir);
+                //saveTrades(trades, securityId, testResultsDir);
+
+                List<Object> combined = new ArrayList<>();
+                combined.addAll(submittedOrders);
+                combined.addAll(trades);
+
+                Collections.sort(combined, new Comparator<Object>() {
+                    @Override
+                    public int compare(Object o1, Object o2) {
+
+                        OrderVO a1 = o1 instanceof OrderVO ? (OrderVO) o1: null;
+                        OrderVO a2 = o2 instanceof OrderVO ? (OrderVO) o2: null;
+                        TradeVO b1 = o1 instanceof TradeVO ? (TradeVO) o1: null;
+                        TradeVO b2 = o2 instanceof TradeVO ? (TradeVO) o2: null;
+                        // Pull out their values.
+                        Long s1 = a1 != null ? a1.getSubmittedTime(): b1 != null ? b1.getCreationTime(): null;
+                        Long s2 = a2 != null ? a2.getSubmittedTime(): b2 != null ? b2.getCreationTime(): null;
+                        // Compare them.
+                        return s1 != null ? s1.compareTo(s2): 0;
+                    }
+                });
+                String fileName = "TAQ_" + securityId + ".csv";
+                File file = new File(testResultsDir, fileName);
+                writeCsvFile(file, OrderVO.getFileHeader(), combined);
 
                 //save bid and ask
                 sendSnapShotRequest(getSnapShotRequest(securityId));
@@ -361,19 +384,19 @@ public class ServicesImpl implements Services,Serializable {
         return offHeapStorage.isSimultationComplete();
     }
 
-    private void saveOrders(Collection<OrderVO> orderVOs,int securityId,File testResultsDir) throws Exception {
-        String fileName = "OrdersSubmitted_" + securityId + ".csv";
-        File file = new File(testResultsDir,fileName);
-
-        writeCsvFile(file, OrderVO.getFileHeader(), orderVOs);
-    }
-
-    private void saveTrades(Collection<TradeVO> tradeVOs,int securityId,File testResultsDir) throws Exception {
-        String fileName = "Trades_" + securityId + ".csv";
-        File file = new File(testResultsDir,fileName);
-
-        writeCsvFile(file, TradeVO.getFileHeader(), tradeVOs);
-    }
+//    private void saveOrders(Collection<OrderVO> orderVOs,int securityId,File testResultsDir) throws Exception {
+//        String fileName = "OrdersSubmitted_" + securityId + ".csv";
+//        File file = new File(testResultsDir,fileName);
+//
+//        writeCsvFile(file, OrderVO.getFileHeader(), orderVOs);
+//    }
+//
+//    private void saveTrades(Collection<TradeVO> tradeVOs,int securityId,File testResultsDir) throws Exception {
+//        String fileName = "Trades_" + securityId + ".csv";
+//        File file = new File(testResultsDir,fileName);
+//
+//        writeCsvFile(file, TradeVO.getFileHeader(), tradeVOs);
+//    }
 
     private void saveLOBOrders(Collection<OrderVO> lobOrders,int securityId,File testResultsDir) throws Exception {
         String fileName = "LOBOrders_" + securityId + ".csv";

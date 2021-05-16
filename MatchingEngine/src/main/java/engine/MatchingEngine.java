@@ -24,6 +24,9 @@ import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.Properties;
@@ -41,6 +44,9 @@ public class  MatchingEngine implements FragmentHandler{
     private LongObjectHashMap<OrderBook>  orderBooks;
     private static AtomicBoolean running = new AtomicBoolean(false);
     private static long startTime;
+
+    private DatagramSocket socket;
+    private InetAddress address;
 
     protected void loadProperties(String propertiesFile) throws IOException {
         try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesFile)) {
@@ -75,6 +81,8 @@ public class  MatchingEngine implements FragmentHandler{
             TradingSessionFactory.initTradingSessionProcessors(orderBooks);
             initOrderBookTradingSessions();
             startTime = System.currentTimeMillis();
+            socket = new DatagramSocket();
+            address = InetAddress.getByName("localhost");
         } catch (Exception e) {
             //TODO:Handle Exception
             e.printStackTrace();
@@ -170,7 +178,7 @@ public class  MatchingEngine implements FragmentHandler{
 
         try {
             temp.wrap(buffer, offset, length);
-            DirectBuffer report = lobManager.processOrder(temp);
+            String report = lobManager.processOrder(temp);
             if (lobManager.isClientMarketDataRequest()) {
                 publishClientMktData();
             } else {
@@ -187,8 +195,13 @@ public class  MatchingEngine implements FragmentHandler{
         }
     }
 
-    private void publishReportToTradingGateway(DirectBuffer buffer){
-        tradingGatewayPublisher.send(buffer);
+    private void publishReportToTradingGateway(String buffer) throws IOException {
+        //tradingGatewayPublisher.send(buffer);
+        if (buffer != null) {
+            byte[] msg = buffer.getBytes();
+            DatagramPacket packet = new DatagramPacket(msg, msg.length, address, 1234);
+            socket.send(packet);
+        }
     }
 
     private void publishToMarketDataGateway(){

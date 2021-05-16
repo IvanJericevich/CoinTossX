@@ -40,7 +40,7 @@ public class   CrossingProcessor implements LOBManager {
     }
 
     @Override
-    public DirectBuffer processOrder(DirectBuffer message) {
+    public String processOrder(DirectBuffer message) {
         ExecutionReportData.INSTANCE.reset();
         MarketData.INSTANCE.reset();
         BusinessRejectReportData.INSTANCE.reset();

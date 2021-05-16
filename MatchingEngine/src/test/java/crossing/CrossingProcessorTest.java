@@ -68,7 +68,7 @@ public class CrossingProcessorTest {
                 Object[] initArr = initStateList.buffer;
                 for (int i = 0; i < initStateList.size(); i++) {
                     OrderEntry oe = (OrderEntry) initArr[i];
-                    crossingProcessor.processOrder(1,STOCK_ID, oe);
+                    crossingProcessor.processOrder(1, STOCK_ID, oe);
                 }
             }
 
@@ -76,7 +76,7 @@ public class CrossingProcessorTest {
             Object[] aggArr = aggOrderList.buffer;
             for (int i = 0; i < aggOrderList.size(); i++) {
                 OrderEntry oe = (OrderEntry) aggArr[i];
-                crossingProcessor.processOrder(1,STOCK_ID,oe);
+                crossingProcessor.processOrder(1, STOCK_ID, oe);
             }
 
 
@@ -84,7 +84,7 @@ public class CrossingProcessorTest {
             Object[] expArr = expStateList.buffer;
             for (int i = 0; i < expStateList.size(); i++) {
                 OrderEntry oe = (OrderEntry) expArr[i];
-                expectedCrossingProcessor.processOrder(1,STOCK_ID,oe);
+                expectedCrossingProcessor.processOrder(1, STOCK_ID, oe);
             }
 
             OrderBook orderBook = crossingProcessor.getOrderBook(STOCK_ID);
@@ -92,6 +92,7 @@ public class CrossingProcessorTest {
 
             assertEquals("Test Type = " + orderData.getType() + " , Test Order Book " + orderData.getTestNumber() + " failed", expectedOrderBook, orderBook);
             assertEquals("Test Type = " + orderData.getType() + " , Test Trades " + orderData.getTestNumber() + " failed", orderData.getTrades(), orderBook.getTrades());
+
         }finally{
             UnsafeUtil.freeOrderEntryMemory(initStateList);
             UnsafeUtil.freeOrderEntryMemory(aggOrderList);

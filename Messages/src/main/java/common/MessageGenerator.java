@@ -92,4 +92,27 @@ public class MessageGenerator {
 
         return orderCancelReplaceRequestBuilder.build();
     }
+
+    public static DirectBuffer buildLimitOrder() {
+        String clientOrderId = BuilderUtil.fill("2", OrderCancelReplaceRequestEncoder.clientOrderIdLength());
+        String traderMnemonic = BuilderUtil.fill("John", NewOrderEncoder.traderMnemonicLength());
+        NewOrderBuilder newOrderBuilder = new NewOrderBuilder().compID(1)
+                .clientOrderId(clientOrderId.getBytes())
+                .securityId(1)
+                .orderType(OrdTypeEnum.Limit)
+                .timeInForce(TimeInForceEnum.Day)
+                .side(SideEnum.Buy)
+                .account("account123".getBytes())
+                .capacity(CapacityEnum.Agency)
+                .cancelOnDisconnect(CancelOnDisconnectEnum.DoNotCancel)
+                .orderBook(OrderBookEnum.Regular)
+                .traderMnemonic(traderMnemonic.getBytes())
+                .expireTime("20211230-23:00:00".getBytes())
+                .orderQuantity(1000)
+                .displayQuantity(1000)
+                .minQuantity(0)
+                .limitPrice(10000)
+                .stopPrice(0);
+        return newOrderBuilder.build();
+    }
 }

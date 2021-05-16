@@ -67,11 +67,10 @@ public class CancelOrderPreProcessor implements MatchingPreProcessor {
     }
 
     private void populateExecutionData(OrderEntry orderEntry){
-        //UnsafeBuffer clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderViewEncoder.clientOrderIdLength()));
-        //        clientOrderId.wrap(BuilderUtil.fill(Long.toString(aggOrder.getClientOrderId()), OrderViewEncoder.clientOrderIdLength()).getBytes());
         ExecutionReportData executionReportData = ExecutionReportData.INSTANCE;
         executionReportData.setOrderId((int)orderEntry.getOrderId());
         executionReportData.setExecutionType(ExecutionTypeEnum.Cancelled);
         executionReportData.setOrderStatus(OrderStatusEnum.Cancelled);
+        executionReportData.addFillGroup(orderEntry.getClientOrderId(), orderEntry.getPrice(), orderEntry.getQuantity());
     }
 }

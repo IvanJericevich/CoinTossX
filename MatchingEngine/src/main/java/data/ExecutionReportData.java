@@ -13,6 +13,7 @@ import uk.co.real_logic.agrona.DirectBuffer;
 import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public enum ExecutionReportData {
     INSTANCE;
@@ -24,14 +25,14 @@ public enum ExecutionReportData {
     private OrderStatusEnum orderStatus;
     private RejectCode rejectCode = RejectCode.NULL_VAL;
     private long executedPrice;
-    private LongIntHashMap fillGroups;
+    private ArrayList<String> fillGroups;
     private ContainerEnum container = ContainerEnum.Main;
 
     private ExecutionReportBuilder reportBuilder;
     private OrderViewBuilder orderViewBuilder;
 
     ExecutionReportData(){
-        this.fillGroups = new LongIntHashMap();
+        this.fillGroups = new ArrayList<String>();
         this.reportBuilder = new ExecutionReportBuilder();
         this.orderViewBuilder = new OrderViewBuilder();
     }
@@ -45,11 +46,11 @@ public enum ExecutionReportData {
         orderViewBuilder.reset();
     }
 
-    public void addFillGroup(long price, int quantity){
-        fillGroups.put(price, quantity);
+    public void addFillGroup(long id, long price, int quantity){
+        fillGroups.add("{" + id + "," + price + "," + quantity + "}");
     }
 
-    public LongIntHashMap getFillGroup(){
+    public ArrayList<String> getFillGroup(){
         return fillGroups;
     }
 
@@ -117,30 +118,31 @@ public enum ExecutionReportData {
         this.compID = compID;
     }
 
-    public DirectBuffer buildExecutionReport(OrderEntry aggOrder,int securityId){
-        String execId = BuilderUtil.fill("Exec" + Instant.now().getMillis(), ExecutionReportEncoder.executionIDLength());
-        String acc= BuilderUtil.fill("test123", ExecutionReportEncoder.accountLength());
-
-        return reportBuilder.compID(getCompID())
-                .partitionId((short)0)
-                .sequenceNumber(CrossingProcessor.sequenceNumber.incrementAndGet())
-                .executionId(execId.getBytes())
-                .clientOrderId(getClientOrderId())
-                .orderId(getOrderId())
-                .executionType(getExecutionType())
-                .orderStatus(OrderStatusEnum.get(aggOrder.getOrderStatus()))
-                .rejectCode(getRejectCode())
-                .addAllFillGroup(getFillGroup())
-                .leavesQuantity(aggOrder.getQuantity())
-                .container(getContainer())
-                .securityId(securityId)
-                .side(SideEnum.get(aggOrder.getSide()))
-                .traderMnemonic(TraderDAO.getTraderById(aggOrder.getTrader()))
-                .account(acc.getBytes())
-                .isMarketOpsRequest(IsMarketOpsRequestEnum.No)
-                .transactTime(Instant.now().getMillis())
-                .orderBook(OrderBookEnum.Regular)
-                .build();
+    public String buildExecutionReport(OrderEntry aggOrder,int securityId){
+        String report = Instant.now().getMillis() + "," + executionType  + "," + (aggOrder.getSide() == 1 ? SideEnum.Buy : SideEnum.Sell) + "," + TraderDAO.getTraderById(aggOrder.getTrader()) + ",{" + String.join(",", fillGroups) + "}";
+        return report;
+//        String execId = BuilderUtil.fill("Exec" + Instant.now().getMillis(), ExecutionReportEncoder.executionIDLength());
+//        String acc= BuilderUtil.fill("test123", ExecutionReportEncoder.accountLength());
+//        return reportBuilder.compID(getCompID())
+//                .partitionId((short)0)
+//                .sequenceNumber(CrossingProcessor.sequenceNumber.incrementAndGet())
+//                .executionId(execId.getBytes())
+//                .clientOrderId(getClientOrderId())
+//                .orderId(getOrderId())
+//                .executionType(getExecutionType())
+//                .orderStatus(OrderStatusEnum.get(aggOrder.getOrderStatus()))
+//                .rejectCode(getRejectCode())
+//                .addAllFillGroup(getFillGroup())
+//                .leavesQuantity(aggOrder.getQuantity())
+//                .container(getContainer())
+//                .securityId(securityId)
+//                .side(SideEnum.get(aggOrder.getSide()))
+//                .traderMnemonic(TraderDAO.getTraderById(aggOrder.getTrader()))
+//                .account(acc.getBytes())
+//                .isMarketOpsRequest(IsMarketOpsRequestEnum.No)
+//                .transactTime(Instant.now().getMillis())
+//                .orderBook(OrderBookEnum.Regular)
+//                .build();
     }
 
     public void buildOrderView(OrderEntry aggOrder, long securityId){
