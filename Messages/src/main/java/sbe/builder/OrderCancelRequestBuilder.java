@@ -17,8 +17,8 @@ public class OrderCancelRequestBuilder {
 
     private int compID;
     private int securityId;
-    private UnsafeBuffer clientOrderId;
-    private UnsafeBuffer origClientOrderId;
+    private int clientOrderId;
+    private int origClientOrderId;
     private int orderId;
     private UnsafeBuffer traderMnemonic;
     private SideEnum side;
@@ -31,9 +31,6 @@ public class OrderCancelRequestBuilder {
         orderCancelRequest = new OrderCancelRequestEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRequestEncoder.clientOrderIdLength()));
-        origClientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRequestEncoder.origClientOrderIdLength()));
         traderMnemonic = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRequestEncoder.traderMnemonicLength()));
     }
 
@@ -42,13 +39,13 @@ public class OrderCancelRequestBuilder {
         return this;
     }
 
-    public OrderCancelRequestBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public OrderCancelRequestBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
-    public OrderCancelRequestBuilder origClientOrderId(byte[] value){
-        this.origClientOrderId.wrap(value);
+    public OrderCancelRequestBuilder origClientOrderId(int value){
+        this.origClientOrderId = value;
         return this;
     }
 
@@ -93,8 +90,8 @@ public class OrderCancelRequestBuilder {
 
         bufferIndex += messageHeader.encodedLength();
         orderCancelRequest.wrap(encodeBuffer, bufferIndex)
-                .putClientOrderId(clientOrderId.byteArray(),0)
-                .putOrigClientOrderId(origClientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
+                .origClientOrderId(origClientOrderId)
                 .orderId(orderId)
                 .securityId(securityId)
                 .putTraderMnemonic(traderMnemonic.byteArray(),0)

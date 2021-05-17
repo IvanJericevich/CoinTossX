@@ -9,7 +9,7 @@ import uk.co.real_logic.agrona.DirectBuffer;
 @SuppressWarnings("all")
 public class ExecutionReportDecoder
 {
-    public static final int BLOCK_LENGTH = 103;
+    public static final int BLOCK_LENGTH = 87;
     public static final int TEMPLATE_ID = 13;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -238,52 +238,24 @@ public class ExecutionReportDecoder
         return "";
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
 
-    public static int clientOrderIdLength()
+    public int clientOrderId()
     {
-        return 20;
-    }
-
-    public byte clientOrderId(final int index)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        return CodecUtil.charGet(buffer, this.offset + 26 + (index * 1));
-    }
-
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-
-    public int getClientOrderId(final byte[] dst, final int dstOffset)
-    {
-        final int length = 20;
-        if (dstOffset < 0 || dstOffset > (dst.length - length))
-        {
-            throw new IndexOutOfBoundsException("dstOffset out of range for copy: offset=" + dstOffset);
-        }
-
-        CodecUtil.charsGet(buffer, this.offset + 26, dst, dstOffset, length);
-        return length;
+        return CodecUtil.int32Get(buffer, offset + 26, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -321,7 +293,7 @@ public class ExecutionReportDecoder
 
     public int orderId()
     {
-        return CodecUtil.int32Get(buffer, offset + 46, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 30, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -344,7 +316,7 @@ public class ExecutionReportDecoder
 
     public ExecutionTypeEnum executionType()
     {
-        return ExecutionTypeEnum.get(CodecUtil.charGet(buffer, offset + 50));
+        return ExecutionTypeEnum.get(CodecUtil.charGet(buffer, offset + 34));
     }
 
 
@@ -367,7 +339,7 @@ public class ExecutionReportDecoder
 
     public OrderStatusEnum orderStatus()
     {
-        return OrderStatusEnum.get(CodecUtil.uint8Get(buffer, offset + 51));
+        return OrderStatusEnum.get(CodecUtil.uint8Get(buffer, offset + 35));
     }
 
 
@@ -390,7 +362,7 @@ public class ExecutionReportDecoder
 
     public RejectCode rejectCode()
     {
-        return RejectCode.get(CodecUtil.int32Get(buffer, offset + 52, java.nio.ByteOrder.LITTLE_ENDIAN));
+        return RejectCode.get(CodecUtil.int32Get(buffer, offset + 36, java.nio.ByteOrder.LITTLE_ENDIAN));
     }
 
 
@@ -428,7 +400,7 @@ public class ExecutionReportDecoder
 
     public int leavesQuantity()
     {
-        return CodecUtil.int32Get(buffer, offset + 56, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 40, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -451,7 +423,7 @@ public class ExecutionReportDecoder
 
     public ContainerEnum container()
     {
-        return ContainerEnum.get(CodecUtil.uint8Get(buffer, offset + 60));
+        return ContainerEnum.get(CodecUtil.uint8Get(buffer, offset + 44));
     }
 
 
@@ -489,7 +461,7 @@ public class ExecutionReportDecoder
 
     public int securityId()
     {
-        return CodecUtil.int32Get(buffer, offset + 61, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 45, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -512,7 +484,7 @@ public class ExecutionReportDecoder
 
     public SideEnum side()
     {
-        return SideEnum.get(CodecUtil.uint8Get(buffer, offset + 65));
+        return SideEnum.get(CodecUtil.uint8Get(buffer, offset + 49));
     }
 
 
@@ -560,7 +532,7 @@ public class ExecutionReportDecoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        return CodecUtil.charGet(buffer, this.offset + 66 + (index * 1));
+        return CodecUtil.charGet(buffer, this.offset + 50 + (index * 1));
     }
 
 
@@ -577,7 +549,7 @@ public class ExecutionReportDecoder
             throw new IndexOutOfBoundsException("dstOffset out of range for copy: offset=" + dstOffset);
         }
 
-        CodecUtil.charsGet(buffer, this.offset + 66, dst, dstOffset, length);
+        CodecUtil.charsGet(buffer, this.offset + 50, dst, dstOffset, length);
         return length;
     }
 
@@ -626,7 +598,7 @@ public class ExecutionReportDecoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        return CodecUtil.charGet(buffer, this.offset + 83 + (index * 1));
+        return CodecUtil.charGet(buffer, this.offset + 67 + (index * 1));
     }
 
 
@@ -643,7 +615,7 @@ public class ExecutionReportDecoder
             throw new IndexOutOfBoundsException("dstOffset out of range for copy: offset=" + dstOffset);
         }
 
-        CodecUtil.charsGet(buffer, this.offset + 83, dst, dstOffset, length);
+        CodecUtil.charsGet(buffer, this.offset + 67, dst, dstOffset, length);
         return length;
     }
 
@@ -667,7 +639,7 @@ public class ExecutionReportDecoder
 
     public IsMarketOpsRequestEnum isMarketOpsRequest()
     {
-        return IsMarketOpsRequestEnum.get(CodecUtil.uint8Get(buffer, offset + 93));
+        return IsMarketOpsRequestEnum.get(CodecUtil.uint8Get(buffer, offset + 77));
     }
 
 
@@ -705,7 +677,7 @@ public class ExecutionReportDecoder
 
     public long transactTime()
     {
-        return CodecUtil.uint64Get(buffer, offset + 94, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.uint64Get(buffer, offset + 78, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -728,7 +700,7 @@ public class ExecutionReportDecoder
 
     public OrderBookEnum orderBook()
     {
-        return OrderBookEnum.get(CodecUtil.uint8Get(buffer, offset + 102));
+        return OrderBookEnum.get(CodecUtil.uint8Get(buffer, offset + 86));
     }
 
 

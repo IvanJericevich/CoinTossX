@@ -11,8 +11,6 @@ public class OrderCancelRequestReader {
     private int bufferIndex;
     private OrderCancelRequestDecoder orderCancelRequest;
     private MessageHeaderDecoder messageHeader;
-    private byte[] clientOrderId;
-    private byte[] origClientOrderId;
     private byte[] traderMnemonic;
 
     public OrderCancelRequestReader(){
@@ -20,8 +18,6 @@ public class OrderCancelRequestReader {
         bufferIndex = 0;
         messageHeader = new MessageHeaderDecoder();
         orderCancelRequest = new OrderCancelRequestDecoder();
-        clientOrderId = new byte[OrderCancelRequestDecoder.clientOrderIdLength()];
-        origClientOrderId = new byte[OrderCancelRequestDecoder.origClientOrderIdLength()];
         traderMnemonic = new byte[OrderCancelRequestDecoder.traderMnemonicLength()];
     }
 
@@ -36,8 +32,8 @@ public class OrderCancelRequestReader {
 
         orderCancelRequest.wrap(buffer, bufferIndex, actingBlockLength, actingVersion);
 
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, orderCancelRequest.getClientOrderId(clientOrderId, 0), OrderCancelRequestDecoder.clientOrderIdCharacterEncoding()));
-        sb.append("OrigClientOrderId=" + new String(origClientOrderId, 0, orderCancelRequest.getOrigClientOrderId(origClientOrderId, 0), OrderCancelRequestDecoder.origClientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + orderCancelRequest.clientOrderId());
+        sb.append("OrigClientOrderId=" + orderCancelRequest.origClientOrderId());
         sb.append("OrderId=" + orderCancelRequest.orderId());
         sb.append("SecurityId=" + orderCancelRequest.securityId());
         sb.append("TraderMnemonic=" + new String(traderMnemonic, 0, orderCancelRequest.getTraderMnemonic(traderMnemonic, 0), OrderCancelRequestDecoder.traderMnemonicCharacterEncoding()));

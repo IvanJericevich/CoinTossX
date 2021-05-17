@@ -18,7 +18,7 @@ public class BusinessRejectBuilder {
     private short partitionId;
     private int sequenceNumber;
     private BusinessRejectEnum businessRejectEnum;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private int orderId;
     private long transactTime;
 
@@ -28,8 +28,6 @@ public class BusinessRejectBuilder {
         businessReject = new BusinessRejectEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(BusinessRejectEncoder.clientOrderIdLength()));
     }
 
     public BusinessRejectBuilder compID(int value){
@@ -37,8 +35,8 @@ public class BusinessRejectBuilder {
         return this;
     }
 
-    public BusinessRejectBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public BusinessRejectBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -82,7 +80,7 @@ public class BusinessRejectBuilder {
                 .partitionId(partitionId)
                 .sequenceNumber(sequenceNumber)
                 .rejectCode(businessRejectEnum)
-                .putClientOrderId(clientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
                 .orderId(orderId)
                 .transactTime(transactTime);
 

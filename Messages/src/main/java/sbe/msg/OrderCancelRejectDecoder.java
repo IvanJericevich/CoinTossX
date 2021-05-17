@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.DirectBuffer;
 @SuppressWarnings("all")
 public class OrderCancelRejectDecoder
 {
-    public static final int BLOCK_LENGTH = 42;
+    public static final int BLOCK_LENGTH = 26;
     public static final int TEMPLATE_ID = 14;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -170,52 +170,24 @@ public class OrderCancelRejectDecoder
         return "";
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
 
-    public static int clientOrderIdLength()
+    public int clientOrderId()
     {
-        return 20;
-    }
-
-    public byte clientOrderId(final int index)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        return CodecUtil.charGet(buffer, this.offset + 5 + (index * 1));
-    }
-
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-
-    public int getClientOrderId(final byte[] dst, final int dstOffset)
-    {
-        final int length = 20;
-        if (dstOffset < 0 || dstOffset > (dst.length - length))
-        {
-            throw new IndexOutOfBoundsException("dstOffset out of range for copy: offset=" + dstOffset);
-        }
-
-        CodecUtil.charsGet(buffer, this.offset + 5, dst, dstOffset, length);
-        return length;
+        return CodecUtil.int32Get(buffer, offset + 5, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -253,7 +225,7 @@ public class OrderCancelRejectDecoder
 
     public int orderId()
     {
-        return CodecUtil.int32Get(buffer, offset + 25, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 9, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -291,7 +263,7 @@ public class OrderCancelRejectDecoder
 
     public long transactTime()
     {
-        return CodecUtil.uint64Get(buffer, offset + 29, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.uint64Get(buffer, offset + 13, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -314,7 +286,7 @@ public class OrderCancelRejectDecoder
 
     public RejectCode rejectCode()
     {
-        return RejectCode.get(CodecUtil.int32Get(buffer, offset + 37, java.nio.ByteOrder.LITTLE_ENDIAN));
+        return RejectCode.get(CodecUtil.int32Get(buffer, offset + 21, java.nio.ByteOrder.LITTLE_ENDIAN));
     }
 
 
@@ -337,7 +309,7 @@ public class OrderCancelRejectDecoder
 
     public OrderBookEnum orderBook()
     {
-        return OrderBookEnum.get(CodecUtil.uint8Get(buffer, offset + 41));
+        return OrderBookEnum.get(CodecUtil.uint8Get(buffer, offset + 25));
     }
 
 }

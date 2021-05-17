@@ -17,7 +17,7 @@ public class ExecutionReportBuilder {
     private short partitionId;
     private int sequenceNumber;
     private UnsafeBuffer executionId;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private int orderId;
     private ExecutionTypeEnum executionType;
     private OrderStatusEnum orderStatus;
@@ -41,7 +41,6 @@ public class ExecutionReportBuilder {
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
 
         executionId = new UnsafeBuffer(ByteBuffer.allocateDirect(ExecutionReportEncoder.executionIDLength()));
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(ExecutionReportEncoder.clientOrderIdLength()));
         traderMnemonic = new UnsafeBuffer(ByteBuffer.allocateDirect(ExecutionReportEncoder.traderMnemonicLength()));
         account = new UnsafeBuffer(ByteBuffer.allocateDirect(ExecutionReportEncoder.accountLength()));
         fillGroups = new LongIntHashMap();
@@ -66,8 +65,8 @@ public class ExecutionReportBuilder {
         return this;
     }
 
-    public ExecutionReportBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public ExecutionReportBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -171,7 +170,7 @@ public class ExecutionReportBuilder {
                 .partitionId(partitionId)
                 .sequenceNumber(sequenceNumber)
                 .putExecutionID(executionId.byteArray(), 0)
-                .putClientOrderId(clientOrderId.byteArray(), 0)
+                .clientOrderId(clientOrderId)
                 .orderId(orderId)
                 .executionType(executionType)
                 .orderStatus(orderStatus)

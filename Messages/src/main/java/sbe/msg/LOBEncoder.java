@@ -126,11 +126,11 @@ public class LOBEncoder
             this.buffer = buffer;
             actingVersion = SCHEMA_VERSION;
             dimensions.wrap(buffer, parentMessage.limit());
-            dimensions.blockLength((int)37);
+            dimensions.blockLength((int)21);
             dimensions.numInGroup((int)count);
             index = -1;
             this.count = count;
-            blockLength = 37;
+            blockLength = 21;
             parentMessage.limit(parentMessage.limit() + HEADER_SIZE);
         }
 
@@ -141,7 +141,7 @@ public class LOBEncoder
 
         public static int sbeBlockLength()
         {
-            return 37;
+            return 21;
         }
 
         public OrdersEncoder next()
@@ -211,49 +211,23 @@ public class LOBEncoder
             return this;
         }
 
-        public static byte clientOrderIdNullValue()
+        public static int clientOrderIdNullValue()
         {
-            return (byte)0;
+            return -2147483648;
         }
 
-        public static byte clientOrderIdMinValue()
+        public static int clientOrderIdMinValue()
         {
-            return (byte)32;
+            return -2147483647;
         }
 
-        public static byte clientOrderIdMaxValue()
+        public static int clientOrderIdMaxValue()
         {
-            return (byte)126;
+            return 2147483647;
         }
-
-        public static int clientOrderIdLength()
+        public OrdersEncoder clientOrderId(final int value)
         {
-            return 20;
-        }
-
-        public void clientOrderId(final int index, final byte value)
-        {
-            if (index < 0 || index >= 20)
-            {
-                throw new IndexOutOfBoundsException("index out of range: index=" + index);
-            }
-
-            CodecUtil.charPut(buffer, this.offset + 17 + (index * 1), value);
-        }
-
-        public static String clientOrderIdCharacterEncoding()
-        {
-            return "UTF-8";
-        }
-        public OrdersEncoder putClientOrderId(final byte[] src, final int srcOffset)
-        {
-            final int length = 20;
-            if (srcOffset < 0 || srcOffset > (src.length - length))
-            {
-                throw new IndexOutOfBoundsException(    "srcOffset out of range for copy: offset=" + srcOffset);
-            }
-
-            CodecUtil.charsPut(buffer, this.offset + 17, src, srcOffset, length);
+            CodecUtil.int32Put(buffer, offset + 17, value, java.nio.ByteOrder.LITTLE_ENDIAN);
             return this;
         }
     }

@@ -21,11 +21,12 @@ public class OrderExecutedWithPriceSizeBuilder {
     private int executedQuantity;
     private int displayQuantity;
     private int tradeId;
-    private long clientOrderId;
+    private int clientOrderId;
     private PrintableEnum printable;
     private long price;
     private int instrumentId;
     private long executedTime;
+    private int traderMnemonic;
 
     public static int BUFFER_SIZE = 62;
 
@@ -50,7 +51,7 @@ public class OrderExecutedWithPriceSizeBuilder {
         return this;
     }
 
-    public OrderExecutedWithPriceSizeBuilder clientOrderId(long value){
+    public OrderExecutedWithPriceSizeBuilder clientOrderId(int value){
         this.clientOrderId = value;
         return this;
     }
@@ -89,6 +90,11 @@ public class OrderExecutedWithPriceSizeBuilder {
         return this;
     }
 
+    public OrderExecutedWithPriceSizeBuilder traderMnemonic(int value){
+        this.traderMnemonic = value;
+        return this;
+    }
+
     public DirectBuffer build(){
         bufferIndex = 0;
         messageHeader.wrap(encodeBuffer, bufferIndex)
@@ -110,7 +116,8 @@ public class OrderExecutedWithPriceSizeBuilder {
                 .tradeId(tradeId)
                 .printable(printable)
                 .instrumentId(instrumentId)
-                .executedTime(executedTime);
+                .executedTime(executedTime)
+                .traderMnemonic(traderMnemonic);
 
         orderExecutedWithPriceSize.price().mantissa(price);
 

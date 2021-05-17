@@ -16,7 +16,7 @@ public class LOBBuilder {
 
     private int compID;
     private int securityId;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private ObjectArrayList<Order> orders;
 
     public static int BUFFER_SIZE = 17000;
@@ -26,7 +26,6 @@ public class LOBBuilder {
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
         orders = new ObjectArrayList<>();
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(LOBEncoder.OrdersEncoder.clientOrderIdLength()));
     }
 
     public void reset(){
@@ -47,7 +46,7 @@ public class LOBBuilder {
         return this;
     }
 
-    public LOBBuilder addOrder(long clientOrderId, int orderId, int orderQuantity, SideEnum side, long price){
+    public LOBBuilder addOrder(int clientOrderId, int orderId, int orderQuantity, SideEnum side, long price){
         orders.add(new Order(clientOrderId, orderId,orderQuantity,side,price));
         return this;
     }
@@ -72,9 +71,7 @@ public class LOBBuilder {
             Order order = orders.get(i);
             if(order != null) {
                 LOBEncoder.OrdersEncoder oe = ordersEncoder.next();
-
-                clientOrderId.wrap(order.getClientOrderId().getBytes());
-                oe.putClientOrderId(clientOrderId.byteArray(), 0);
+                oe.clientOrderId(clientOrderId);
                 oe.orderId(order.getOrderId());
                 oe.orderQuantity(order.getOrderQuantity());
                 oe.side(order.getSide());
@@ -90,7 +87,7 @@ public class LOBBuilder {
         private int orderQuantity;
         private SideEnum side;
         private long price;
-        private String clientOrderId;
+        private int clientOrderId;
 
         public Order(){}
 
@@ -101,8 +98,8 @@ public class LOBBuilder {
             this.price = price;
         }
 
-        public Order(long clientOrderId, int orderId, int orderQuantity, SideEnum side, long price){
-            this.clientOrderId = BuilderUtil.fill(Long.toString(clientOrderId), LOBEncoder.OrdersEncoder.clientOrderIdLength());;
+        public Order(int clientOrderId, int orderId, int orderQuantity, SideEnum side, long price){
+            this.clientOrderId = clientOrderId;
             this.orderId = orderId;
             this.orderQuantity = orderQuantity;
             this.side = side;
@@ -125,7 +122,7 @@ public class LOBBuilder {
             return price;
         }
 
-        public String getClientOrderId() {
+        public int getClientOrderId() {
             return clientOrderId;
         }
 
@@ -145,7 +142,7 @@ public class LOBBuilder {
             this.price = price;
         }
 
-        public void setClientOrderId(String clientOrderId) {
+        public void setClientOrderId(int clientOrderId) {
             this.clientOrderId = clientOrderId;
         }
 

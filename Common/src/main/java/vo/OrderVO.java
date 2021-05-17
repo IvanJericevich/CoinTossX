@@ -14,7 +14,8 @@ public class OrderVO implements Serializable {
     private long price;
     private long volume;
     private String side;
-    private String clientOrderId;
+    private int clientOrderId;
+    private int traderMnemonic;
 
     public long getOrderId() {
         return orderId;
@@ -24,9 +25,9 @@ public class OrderVO implements Serializable {
         this.orderId = orderId;
     }
 
-    public String getClientOrderId() { return clientOrderId; }
+    public int getClientOrderId() { return clientOrderId; }
 
-    public void setClientOrderId(String clientOrderId) { this.clientOrderId = clientOrderId.trim(); }
+    public void setClientOrderId(int clientOrderId) { this.clientOrderId = clientOrderId; }
 
     public long getSubmittedTime() {
         return submittedTime;
@@ -101,11 +102,19 @@ public class OrderVO implements Serializable {
     }
 
     public Object[] getValues(){
-        return new Object[]{securityId,orderId,clientOrderId,getFormattedTime(),price,volume,side};
+        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,volume,side};
     }
 
     public static String[] getFileHeader(){
-        return new String[]{"SecurityId","OrderId","ClientOrderId","DateTime","Price",
+        return new String[]{"DateTime","TraderMnemonic","ClientOrderId","Price",
                 "Volume","Side"};
+    }
+
+    public int getTraderMnemonic() {
+        return traderMnemonic;
+    }
+
+    public void setTraderMnemonic(int traderMnemonic) {
+        this.traderMnemonic = traderMnemonic;
     }
 }

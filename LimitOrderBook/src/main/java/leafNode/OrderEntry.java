@@ -10,8 +10,8 @@ public class OrderEntry {
     private static int offset = 0;
 
     private static long orderIdOffset = offset += 0;
-    private static long clientOrderIdOffset = offset += Long.BYTES;
-    private static long origClientOrderIdOffset = offset += Long.BYTES;
+    private static long clientOrderIdOffset = offset += Integer.BYTES;
+    private static long origClientOrderIdOffset = offset += Integer.BYTES;
     private static long typeOffset = offset += Long.BYTES;
     private static long sideOffSet = offset += Byte.BYTES;
     private static long timeInForceOffSet = offset += Byte.BYTES;
@@ -52,15 +52,13 @@ public class OrderEntry {
         unsafe.putLong(objectOffset + orderIdOffset, orderId);
     }
 
-    public long getClientOrderId() { return unsafe.getLong(objectOffset + clientOrderIdOffset); }
+    public int getClientOrderId() { return unsafe.getInt(objectOffset + clientOrderIdOffset); }
 
-    public void setClientOrderId(long clientOrderId) { unsafe.putLong(objectOffset + clientOrderIdOffset, clientOrderId); }
+    public void setClientOrderId(int clientOrderId) { unsafe.putInt(objectOffset + clientOrderIdOffset, clientOrderId); }
 
-    public long getOrigClientOrderId() {
-        return unsafe.getLong(objectOffset + origClientOrderIdOffset);
-    }
+    public int getOrigClientOrderId() { return unsafe.getInt(objectOffset + origClientOrderIdOffset); }
 
-    public void setOrigClientOrderId(long origClientOrderId) { unsafe.putLong(objectOffset + origClientOrderIdOffset, origClientOrderId); }
+    public void setOrigClientOrderId(int origClientOrderId) { unsafe.putInt(objectOffset + origClientOrderIdOffset, origClientOrderId); }
 
     public byte getType() {
         return unsafe.getByte(objectOffset + typeOffset);

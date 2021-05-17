@@ -9,7 +9,7 @@ import uk.co.real_logic.agrona.MutableDirectBuffer;
 @SuppressWarnings("all")
 public class ExecutionReportEncoder
 {
-    public static final int BLOCK_LENGTH = 103;
+    public static final int BLOCK_LENGTH = 87;
     public static final int TEMPLATE_ID = 13;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -161,49 +161,23 @@ public class ExecutionReportEncoder
         return this;
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int clientOrderIdLength()
+    public ExecutionReportEncoder clientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void clientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 26 + (index * 1), value);
-    }
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public ExecutionReportEncoder putClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 26, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 26, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -223,22 +197,22 @@ public class ExecutionReportEncoder
     }
     public ExecutionReportEncoder orderId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 46, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 30, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public ExecutionReportEncoder executionType(final ExecutionTypeEnum value)
     {
-        CodecUtil.charPut(buffer, offset + 50, value.value());
+        CodecUtil.charPut(buffer, offset + 34, value.value());
         return this;
     }
     public ExecutionReportEncoder orderStatus(final OrderStatusEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 51, value.value());
+        CodecUtil.uint8Put(buffer, offset + 35, value.value());
         return this;
     }
     public ExecutionReportEncoder rejectCode(final RejectCode value)
     {
-        CodecUtil.int32Put(buffer, offset + 52, value.value(), java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 36, value.value(), java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -258,12 +232,12 @@ public class ExecutionReportEncoder
     }
     public ExecutionReportEncoder leavesQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 56, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 40, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public ExecutionReportEncoder container(final ContainerEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 60, value.value());
+        CodecUtil.uint8Put(buffer, offset + 44, value.value());
         return this;
     }
 
@@ -283,12 +257,12 @@ public class ExecutionReportEncoder
     }
     public ExecutionReportEncoder securityId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 61, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 45, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public ExecutionReportEncoder side(final SideEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 65, value.value());
+        CodecUtil.uint8Put(buffer, offset + 49, value.value());
         return this;
     }
 
@@ -319,7 +293,7 @@ public class ExecutionReportEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 66 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 50 + (index * 1), value);
     }
 
     public static String traderMnemonicCharacterEncoding()
@@ -334,7 +308,7 @@ public class ExecutionReportEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 66, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 50, src, srcOffset, length);
         return this;
     }
 
@@ -365,7 +339,7 @@ public class ExecutionReportEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 83 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 67 + (index * 1), value);
     }
 
     public static String accountCharacterEncoding()
@@ -380,12 +354,12 @@ public class ExecutionReportEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 83, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 67, src, srcOffset, length);
         return this;
     }
     public ExecutionReportEncoder isMarketOpsRequest(final IsMarketOpsRequestEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 93, value.value());
+        CodecUtil.uint8Put(buffer, offset + 77, value.value());
         return this;
     }
 
@@ -405,12 +379,12 @@ public class ExecutionReportEncoder
     }
     public ExecutionReportEncoder transactTime(final long value)
     {
-        CodecUtil.uint64Put(buffer, offset + 94, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.uint64Put(buffer, offset + 78, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public ExecutionReportEncoder orderBook(final OrderBookEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 102, value.value());
+        CodecUtil.uint8Put(buffer, offset + 86, value.value());
         return this;
     }
 

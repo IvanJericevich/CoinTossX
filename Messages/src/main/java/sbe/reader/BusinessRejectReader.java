@@ -11,14 +11,12 @@ public class BusinessRejectReader {
     private int bufferIndex;
     private BusinessRejectDecoder businessReject;
     private MessageHeaderDecoder messageHeader;
-    private byte[] clientOrderId;
 
     public BusinessRejectReader(){
         sb = new StringBuilder();
         bufferIndex = 0;
         messageHeader = new MessageHeaderDecoder();
         businessReject = new BusinessRejectDecoder();
-        clientOrderId = new byte[BusinessRejectDecoder.clientOrderIdLength()];
     }
 
     public StringBuilder read(DirectBuffer buffer) throws UnsupportedEncodingException {
@@ -35,7 +33,7 @@ public class BusinessRejectReader {
         sb.append("PartitionId=" + businessReject.partitionId());
         sb.append("SequenceNumber=" + businessReject.sequenceNumber());
         sb.append("RejectCode=" + businessReject.rejectCode());
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, businessReject.getClientOrderId(clientOrderId, 0), BusinessRejectDecoder.clientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + businessReject.clientOrderId());
         sb.append("OrderId=" + businessReject.orderId());
         sb.append("TransactTime=" + businessReject.transactTime());
 

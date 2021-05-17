@@ -25,16 +25,10 @@ public class MessageGenerator {
     public static DirectBuffer buildOrderCancelRequest() {
         OrderCancelRequestBuilder orderCancelRequestBuilder = new OrderCancelRequestBuilder();
         orderCancelRequestBuilder.compID(1);
-
-        String clientOrderId = BuilderUtil.fill("2", OrderCancelRequestEncoder.clientOrderIdLength());
-        orderCancelRequestBuilder.clientOrderId(clientOrderId.getBytes());
-
-        String origClientOrderId = BuilderUtil.fill("1", OrderCancelRequestEncoder.origClientOrderIdLength());
-        orderCancelRequestBuilder.origClientOrderId(origClientOrderId.getBytes());
+        orderCancelRequestBuilder.clientOrderId(2);
+        orderCancelRequestBuilder.origClientOrderId(1);
         orderCancelRequestBuilder.securityId(1);
-
         String trader = BuilderUtil.fill("John", OrderCancelRequestEncoder.traderMnemonicLength());
-
         orderCancelRequestBuilder.traderMnemonic(trader.getBytes())
                 .side(SideEnum.Buy)
                 .orderBook(OrderBookEnum.Regular);
@@ -45,40 +39,26 @@ public class MessageGenerator {
     public static DirectBuffer buildOrderCancelRequestInvalidSecurity() {
         OrderCancelRequestBuilder orderCancelRequestBuilder = new OrderCancelRequestBuilder();
         orderCancelRequestBuilder.compID(1);
-
-        String clientOrderId = BuilderUtil.fill("2", OrderCancelRequestEncoder.clientOrderIdLength());
-        orderCancelRequestBuilder.clientOrderId(clientOrderId.getBytes());
-
-        String origClientOrderId = BuilderUtil.fill("1", OrderCancelRequestEncoder.origClientOrderIdLength());
-        orderCancelRequestBuilder.origClientOrderId(origClientOrderId.getBytes());
+        orderCancelRequestBuilder.clientOrderId(2);
+        orderCancelRequestBuilder.origClientOrderId(1);
         orderCancelRequestBuilder.securityId(99);
-
         String trader = BuilderUtil.fill("John", OrderCancelRequestEncoder.traderMnemonicLength());
-
         orderCancelRequestBuilder.traderMnemonic(trader.getBytes())
                 .side(SideEnum.Buy)
                 .orderBook(OrderBookEnum.Regular);
-
         return orderCancelRequestBuilder.build();
     }
 
     public static DirectBuffer buildOrderCancelReplaceRequest() {
         OrderCancelReplaceRequestBuilder orderCancelReplaceRequestBuilder = new OrderCancelReplaceRequestBuilder();
         orderCancelReplaceRequestBuilder.compID(1);
-
-        String clientOrderId = BuilderUtil.fill("2", OrderCancelReplaceRequestEncoder.clientOrderIdLength());
-        orderCancelReplaceRequestBuilder.clientOrderId(clientOrderId.getBytes());
-
-        String origClientOrderId = BuilderUtil.fill("1",OrderCancelReplaceRequestEncoder.origClientOrderIdLength());
-        orderCancelReplaceRequestBuilder.origClientOrderId(origClientOrderId.getBytes());
+        orderCancelReplaceRequestBuilder.clientOrderId(2);
+        orderCancelReplaceRequestBuilder.origClientOrderId(1);
         orderCancelReplaceRequestBuilder.securityId(1);
-
         String trader = BuilderUtil.fill("John", OrderCancelReplaceRequestEncoder.traderMnemonicLength());
         orderCancelReplaceRequestBuilder.traderMnemonic(trader.getBytes());
-
         String account = BuilderUtil.fill("test", OrderCancelReplaceRequestEncoder.accountLength());
         orderCancelReplaceRequestBuilder.account(account.getBytes());
-
         orderCancelReplaceRequestBuilder.orderType(OrdTypeEnum.Limit)
                 .timeInForce(TimeInForceEnum.Day)
                 .expireTime("20150823-10:00:00".getBytes())
@@ -89,15 +69,13 @@ public class MessageGenerator {
                 .limitPrice(10000)
                 .stopPrice(0)
                 .orderBook(OrderBookEnum.Regular);
-
         return orderCancelReplaceRequestBuilder.build();
     }
 
     public static DirectBuffer buildLimitOrder() {
-        String clientOrderId = BuilderUtil.fill("2", OrderCancelReplaceRequestEncoder.clientOrderIdLength());
         String traderMnemonic = BuilderUtil.fill("John", NewOrderEncoder.traderMnemonicLength());
         NewOrderBuilder newOrderBuilder = new NewOrderBuilder().compID(1)
-                .clientOrderId(clientOrderId.getBytes())
+                .clientOrderId(2)
                 .securityId(1)
                 .orderType(OrdTypeEnum.Limit)
                 .timeInForce(TimeInForceEnum.Day)

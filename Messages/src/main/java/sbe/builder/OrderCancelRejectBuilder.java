@@ -18,7 +18,7 @@ public class OrderCancelRejectBuilder {
     private int compID;
     private short partitionId;
     private int sequenceNumber;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private int orderId;
     private long transactTime;
     private RejectCode rejectCode;
@@ -30,8 +30,6 @@ public class OrderCancelRejectBuilder {
         orderCancelReject = new OrderCancelRejectEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRejectEncoder.clientOrderIdLength()));
     }
 
     public OrderCancelRejectBuilder compID(int value){
@@ -49,8 +47,8 @@ public class OrderCancelRejectBuilder {
         return this;
     }
 
-    public OrderCancelRejectBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public OrderCancelRejectBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -87,7 +85,7 @@ public class OrderCancelRejectBuilder {
         orderCancelReject.wrap(encodeBuffer, bufferIndex)
                 .partitionId(partitionId)
                 .sequenceNumber(sequenceNumber)
-                .putClientOrderId(clientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
                 .orderId(orderId)
                 .transactTime(transactTime)
                 .rejectCode(rejectCode)

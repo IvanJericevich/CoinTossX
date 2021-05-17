@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.MutableDirectBuffer;
 @SuppressWarnings("all")
 public class OrderCancelReplaceRequestEncoder
 {
-    public static final int BLOCK_LENGTH = 124;
+    public static final int BLOCK_LENGTH = 92;
     public static final int TEMPLATE_ID = 12;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -73,95 +73,43 @@ public class OrderCancelReplaceRequestEncoder
         this.limit = limit;
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int clientOrderIdLength()
+    public OrderCancelReplaceRequestEncoder clientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void clientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 0 + (index * 1), value);
-    }
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public OrderCancelReplaceRequestEncoder putClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 0, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 0, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
-    public static byte origClientOrderIdNullValue()
+    public static int origClientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte origClientOrderIdMinValue()
+    public static int origClientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte origClientOrderIdMaxValue()
+    public static int origClientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int origClientOrderIdLength()
+    public OrderCancelReplaceRequestEncoder origClientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void origClientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 20 + (index * 1), value);
-    }
-
-    public static String origClientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public OrderCancelReplaceRequestEncoder putOrigClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 20, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 4, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -181,7 +129,7 @@ public class OrderCancelReplaceRequestEncoder
     }
     public OrderCancelReplaceRequestEncoder orderId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 40, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 8, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -201,7 +149,7 @@ public class OrderCancelReplaceRequestEncoder
     }
     public OrderCancelReplaceRequestEncoder securityId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 44, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 12, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -232,7 +180,7 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 48 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 16 + (index * 1), value);
     }
 
     public static String traderMnemonicCharacterEncoding()
@@ -247,7 +195,7 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 48, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 16, src, srcOffset, length);
         return this;
     }
 
@@ -278,7 +226,7 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 65 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 33 + (index * 1), value);
     }
 
     public static String accountCharacterEncoding()
@@ -293,17 +241,17 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 65, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 33, src, srcOffset, length);
         return this;
     }
     public OrderCancelReplaceRequestEncoder orderType(final OrdTypeEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 75, value.value());
+        CodecUtil.uint8Put(buffer, offset + 43, value.value());
         return this;
     }
     public OrderCancelReplaceRequestEncoder timeInForce(final TimeInForceEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 76, value.value());
+        CodecUtil.uint8Put(buffer, offset + 44, value.value());
         return this;
     }
 
@@ -334,7 +282,7 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 77 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 45 + (index * 1), value);
     }
 
     public static String expireTimeCharacterEncoding()
@@ -349,12 +297,12 @@ public class OrderCancelReplaceRequestEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 77, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 45, src, srcOffset, length);
         return this;
     }
     public OrderCancelReplaceRequestEncoder side(final SideEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 94, value.value());
+        CodecUtil.uint8Put(buffer, offset + 62, value.value());
         return this;
     }
 
@@ -374,7 +322,7 @@ public class OrderCancelReplaceRequestEncoder
     }
     public OrderCancelReplaceRequestEncoder orderQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 95, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 63, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -394,7 +342,7 @@ public class OrderCancelReplaceRequestEncoder
     }
     public OrderCancelReplaceRequestEncoder displayQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 99, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 67, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -414,7 +362,7 @@ public class OrderCancelReplaceRequestEncoder
     }
     public OrderCancelReplaceRequestEncoder minQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 103, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 71, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -422,7 +370,7 @@ public class OrderCancelReplaceRequestEncoder
 
     public PriceEncoder limitPrice()
     {
-        limitPrice.wrap(buffer, offset + 107);
+        limitPrice.wrap(buffer, offset + 75);
         return limitPrice;
     }
 
@@ -430,12 +378,12 @@ public class OrderCancelReplaceRequestEncoder
 
     public PriceEncoder stopPrice()
     {
-        stopPrice.wrap(buffer, offset + 115);
+        stopPrice.wrap(buffer, offset + 83);
         return stopPrice;
     }
     public OrderCancelReplaceRequestEncoder orderBook(final OrderBookEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 123, value.value());
+        CodecUtil.uint8Put(buffer, offset + 91, value.value());
         return this;
     }
 }

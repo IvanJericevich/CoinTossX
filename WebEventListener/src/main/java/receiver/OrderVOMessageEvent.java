@@ -10,7 +10,8 @@ public class OrderVOMessageEvent {
     private long price;
     private long volume;
     private SideEnum side;
-    private String clientOrderId;
+    private int clientOrderId;
+    private int traderMnemonic;
 
     private final static EventFactory<OrderVOMessageEvent> EVENT_FACTORY = () -> new OrderVOMessageEvent();
 
@@ -34,11 +35,11 @@ public class OrderVOMessageEvent {
         this.orderId = orderId;
     }
 
-    public String getClientOrderId() {
+    public int getClientOrderId() {
         return clientOrderId;
     }
 
-    public void setClientOrderId(String clientOrderId) { this.clientOrderId = clientOrderId; }
+    public void setClientOrderId(int clientOrderId) { this.clientOrderId = clientOrderId; }
 
     public long getSubmittedTime() {
         return submittedTime;
@@ -70,5 +71,13 @@ public class OrderVOMessageEvent {
 
     public void setSide(SideEnum side) {
         this.side = side;
+    }
+
+    public int getTraderMnemonic() {
+        return traderMnemonic;
+    }
+
+    public void setTraderMnemonic(int traderMnemonic) {
+        this.traderMnemonic = traderMnemonic;
     }
 }

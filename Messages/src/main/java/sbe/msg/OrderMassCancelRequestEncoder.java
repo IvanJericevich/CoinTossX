@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.MutableDirectBuffer;
 @SuppressWarnings("all")
 public class OrderMassCancelRequestEncoder
 {
-    public static final int BLOCK_LENGTH = 33;
+    public static final int BLOCK_LENGTH = 17;
     public static final int TEMPLATE_ID = 11;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -73,54 +73,28 @@ public class OrderMassCancelRequestEncoder
         this.limit = limit;
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int clientOrderIdLength()
+    public OrderMassCancelRequestEncoder clientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void clientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 0 + (index * 1), value);
-    }
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public OrderMassCancelRequestEncoder putClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 0, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 0, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public OrderMassCancelRequestEncoder massCancelRequestType(final MassCancelRequestTypeEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 20, value.value());
+        CodecUtil.uint8Put(buffer, offset + 4, value.value());
         return this;
     }
 
@@ -140,7 +114,7 @@ public class OrderMassCancelRequestEncoder
     }
     public OrderMassCancelRequestEncoder securityId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 21, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 5, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -171,7 +145,7 @@ public class OrderMassCancelRequestEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 25 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 9 + (index * 1), value);
     }
 
     public static String segmentCharacterEncoding()
@@ -186,17 +160,17 @@ public class OrderMassCancelRequestEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 25, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 9, src, srcOffset, length);
         return this;
     }
     public OrderMassCancelRequestEncoder orderSubType(final OrderSubTypeEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 31, value.value());
+        CodecUtil.uint8Put(buffer, offset + 15, value.value());
         return this;
     }
     public OrderMassCancelRequestEncoder orderBook(final OrderBookEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 32, value.value());
+        CodecUtil.uint8Put(buffer, offset + 16, value.value());
         return this;
     }
 }

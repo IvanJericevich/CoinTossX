@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.DirectBuffer;
 @SuppressWarnings("all")
 public class OrderViewDecoder
 {
-    public static final int BLOCK_LENGTH = 49;
+    public static final int BLOCK_LENGTH = 37;
     public static final int TEMPLATE_ID = 93;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -132,52 +132,24 @@ public class OrderViewDecoder
         return "";
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
 
-    public static int clientOrderIdLength()
+    public int clientOrderId()
     {
-        return 20;
-    }
-
-    public byte clientOrderId(final int index)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        return CodecUtil.charGet(buffer, this.offset + 4 + (index * 1));
-    }
-
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-
-    public int getClientOrderId(final byte[] dst, final int dstOffset)
-    {
-        final int length = 20;
-        if (dstOffset < 0 || dstOffset > (dst.length - length))
-        {
-            throw new IndexOutOfBoundsException("dstOffset out of range for copy: offset=" + dstOffset);
-        }
-
-        CodecUtil.charsGet(buffer, this.offset + 4, dst, dstOffset, length);
-        return length;
+        return CodecUtil.int32Get(buffer, offset + 4, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -215,7 +187,7 @@ public class OrderViewDecoder
 
     public int orderId()
     {
-        return CodecUtil.int32Get(buffer, offset + 24, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 8, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -253,7 +225,7 @@ public class OrderViewDecoder
 
     public long submittedTime()
     {
-        return CodecUtil.uint64Get(buffer, offset + 28, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.uint64Get(buffer, offset + 12, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -278,7 +250,7 @@ public class OrderViewDecoder
 
     public PriceDecoder price()
     {
-        price.wrap(buffer, offset + 36);
+        price.wrap(buffer, offset + 20);
         return price;
     }
 
@@ -316,7 +288,7 @@ public class OrderViewDecoder
 
     public int orderQuantity()
     {
-        return CodecUtil.int32Get(buffer, offset + 44, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 28, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -339,7 +311,45 @@ public class OrderViewDecoder
 
     public SideEnum side()
     {
-        return SideEnum.get(CodecUtil.uint8Get(buffer, offset + 48));
+        return SideEnum.get(CodecUtil.uint8Get(buffer, offset + 32));
+    }
+
+
+    public static int traderMnemonicId()
+    {
+        return 7;
+    }
+
+    public static String traderMnemonicMetaAttribute(final MetaAttribute metaAttribute)
+    {
+        switch (metaAttribute)
+        {
+            case EPOCH: return "unix";
+            case TIME_UNIT: return "nanosecond";
+            case SEMANTIC_TYPE: return "";
+        }
+
+        return "";
+    }
+
+    public static int traderMnemonicNullValue()
+    {
+        return -2147483648;
+    }
+
+    public static int traderMnemonicMinValue()
+    {
+        return -2147483647;
+    }
+
+    public static int traderMnemonicMaxValue()
+    {
+        return 2147483647;
+    }
+
+    public int traderMnemonic()
+    {
+        return CodecUtil.int32Get(buffer, offset + 33, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 }

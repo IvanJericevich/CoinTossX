@@ -13,6 +13,7 @@ public class TradeVO implements Serializable {
     private int price;
     private int quantity;
     private long executedTime;
+    private int traderMnemonic;
 
     public TradeVO(int tradeId,long clientOrderId,int price,int quantity,long executedTime){
         this.tradeId = tradeId;
@@ -87,11 +88,11 @@ public class TradeVO implements Serializable {
     }
 
     public Object[] getValues(){
-        return new Object[]{tradeId,clientOrderId,price,quantity,getFormattedTime()};
+        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,quantity};
     }
 
     public static String[] getFileHeader(){
-        return new String[]{"OrderId","ClientOrderId","Price","Volume","DateTime"};
+        return new String[]{"DateTime","TraderMnemonic","ClientOrderId","Price","Volume"};
     }
 
     public long getCreationTime() {
@@ -100,5 +101,13 @@ public class TradeVO implements Serializable {
 
     public void setExecutedTime(long executedTime) {
         this.executedTime = executedTime;
+    }
+
+    public int getTraderMnemonic() {
+        return traderMnemonic;
+    }
+
+    public void setTraderMnemonic(int traderMnemonic) {
+        this.traderMnemonic = traderMnemonic;
     }
 }

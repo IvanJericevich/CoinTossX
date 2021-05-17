@@ -39,11 +39,8 @@ public class GatewayClientImplTest {
     }
 
     private DirectBuffer createNewOrder(int volume, long price,SideEnum side,OrdTypeEnum orderType){
-        String clientOrderId = LocalDateTime.now().toString();
-        clientOrderId = BuilderUtil.fill(clientOrderId, NewOrderEncoder.clientOrderIdLength());
-
         DirectBuffer directBuffer = new NewOrderBuilder().compID(1)
-                .clientOrderId(clientOrderId.getBytes())
+                .clientOrderId(1)
                 .account("account123".getBytes())
                 .capacity(CapacityEnum.Agency)
                 .cancelOnDisconnect(CancelOnDisconnectEnum.DoNotCancel)
@@ -60,7 +57,6 @@ public class GatewayClientImplTest {
                 .limitPrice(price)
                 .stopPrice(0)
                 .build();
-
         return directBuffer;
     }
 

@@ -62,4 +62,12 @@ public class ClientRequestProcessorTest {
 
         verify(matchingEnginePub, times(1)).send(db);
     }
+
+    @Test
+    public void testLimitOrder() throws Exception {
+        DirectBuffer db = MessageGenerator.buildLimitOrder();
+        requestProcessor.process(db);
+
+        verify(matchingEnginePub, times(1)).send(db);
+    }
 }

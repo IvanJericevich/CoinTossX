@@ -26,7 +26,8 @@ public class OrderViewReaderTest {
         assertEquals(1000,orderViewReader.getOrderQuantity());
         assertEquals(100,orderViewReader.getPrice());
         assertEquals(SideEnum.Buy,orderViewReader.getSide());
-        assertEquals("1                   ",orderViewReader.getClientOrderId());
+        assertEquals(1,orderViewReader.getClientOrderId());
+        assertEquals(1,orderViewReader.getTraderMnemonic());
     }
 
     private DirectBuffer build(){
@@ -34,12 +35,12 @@ public class OrderViewReaderTest {
         return orderViewBuilder.compID(1)
                 .securityId(2)
                 .orderId(3)
+                .traderMnemonic(1)
                 .submittedTime(Instant.now().toEpochMilli())
                 .orderQuantity(1000)
                 .price(100)
                 .side(SideEnum.Buy)
-                .clientOrderId(BuilderUtil.fill("1", OrderViewEncoder.clientOrderIdLength()).getBytes())
+                .clientOrderId(1)
                 .build();
     }
-
 }

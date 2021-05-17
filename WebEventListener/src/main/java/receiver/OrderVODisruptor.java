@@ -32,7 +32,7 @@ public class OrderVODisruptor {
         ringBuffer = disruptor.start();
     }
 
-    public void addOrderVO(int securityId, long orderId, String clientOrderId, SideEnum side, long submittedTime, long volume, long price){
+    public void addOrderVO(int securityId, long orderId, int clientOrderId, SideEnum side, long submittedTime, long volume, long price, int traderMnemonic){
         long sequence = ringBuffer.next();
         OrderVOMessageEvent event = ringBuffer.get(sequence);
 
@@ -43,6 +43,7 @@ public class OrderVODisruptor {
         event.setSubmittedTime(submittedTime);
         event.setVolume(volume);
         event.setPrice(price);
+        event.setTraderMnemonic(traderMnemonic);
 
         ringBuffer.publish(sequence);
     }

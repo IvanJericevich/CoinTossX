@@ -21,8 +21,8 @@ public class OrderCancelRequestReaderTest {
         DirectBuffer buffer = build();
 
         StringBuilder sb = orderCancelRequestReader.read(buffer);
-        assertEquals("ClientOrderId=2                   " +
-                     "OrigClientOrderId=1                   " +
+        assertEquals("ClientOrderId=2" +
+                     "OrigClientOrderId=1" +
                      "OrderId=0SecurityId=1TraderMnemonic=test             " +
                      "Side=BuyOrderBook=Regular" +
                      "LimitPrice=1000",sb.toString());
@@ -31,12 +31,8 @@ public class OrderCancelRequestReaderTest {
     private DirectBuffer build(){
         OrderCancelRequestBuilder orderCancelRequestBuilder = new OrderCancelRequestBuilder();
         orderCancelRequestBuilder.compID(1);
-
-        String clientOrderId = BuilderUtil.fill("2",OrderCancelRequestEncoder.clientOrderIdLength());
-        orderCancelRequestBuilder.clientOrderId(clientOrderId.getBytes());
-
-        String origClientOrderId = BuilderUtil.fill("1",OrderCancelRequestEncoder.origClientOrderIdLength());
-        orderCancelRequestBuilder.origClientOrderId(origClientOrderId.getBytes());
+        orderCancelRequestBuilder.clientOrderId(2);
+        orderCancelRequestBuilder.origClientOrderId(1);
         orderCancelRequestBuilder.securityId(1);
 
         String trader = BuilderUtil.fill("test", OrderCancelRequestEncoder.traderMnemonicLength());

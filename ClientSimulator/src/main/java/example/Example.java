@@ -60,15 +60,15 @@ public class Example {
 
         //----- Submit orders -----//
         // Arguments for "submitOrder": volume, price, side, order type, time in force, display quantity, min execution size, stop price
-        client.submitOrder("1", 1000, 99, "Buy", "Limit", "Day", 1000, 0, 0); // Buy limit order
-        client.submitOrder("2", 1000, 101, "Sell", "Limit", "Day", 1000, 0, 0); // Sell limit order
-        client.submitOrder("3", 1000, 0, "Buy", "Market", "Day", 1000, 0, 0); // Buy market order
-        client.submitOrder("4", 1000, 0, "Buy", "StopLimit", "Day", 1000, 0, 0); // Stop buy limit order
-        client.submitOrder("5", 1000, 0, "Buy", "Stop", "Day", 1000, 0, 0); // Stop buy market order
-        client.cancelOrder("1", "Buy", 100); // Cancel limit order
+        client.submitOrder(1, "John", 1000, 99, "Buy", "Limit", "Day", 1000, 0, 0); // Buy limit order
+        client.submitOrder(2, "John", 1000, 101, "Sell", "Limit", "Day", 1000, 0, 0); // Sell limit order
+        client.submitOrder(3, "John", 1000, 0, "Buy", "Market", "Day", 1000, 0, 0); // Buy market order
+        client.submitOrder(4, "John", 1000, 0, "Buy", "StopLimit", "Day", 1000, 0, 0); // Stop buy limit order
+        client.submitOrder(5, "John", 1000, 0, "Buy", "Stop", "Day", 1000, 0, 0); // Stop buy market order
+        client.cancelOrder(1, "John", "Buy", 100); // Cancel limit order
 
         //----- Market data updates -----//
-        client.calcVWAP("Buy"); // VWAP of buy side of LOB
+        //client.calcVWAP("Buy"); // VWAP of buy side of LOB
         client.getBid(); // Best bid price
         client.getBidQuantity(); // Best bid volume
         client.getOffer(); // Best ask price

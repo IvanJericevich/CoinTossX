@@ -15,7 +15,7 @@ public class OrderMassCancelReportBuilder {
     private int compID;
     private short partitionId;
     private int sequenceNumber;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private OrderMassCancelReportStatusEnum status;
     private long transactTime;
     private RejectCode rejectCode;
@@ -27,8 +27,6 @@ public class OrderMassCancelReportBuilder {
         orderMassCancelReport = new OrderMassCancelReportEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRejectEncoder.clientOrderIdLength()));
     }
 
     public OrderMassCancelReportBuilder compID(int value){
@@ -46,8 +44,8 @@ public class OrderMassCancelReportBuilder {
         return this;
     }
 
-    public OrderMassCancelReportBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public OrderMassCancelReportBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -84,7 +82,7 @@ public class OrderMassCancelReportBuilder {
         orderMassCancelReport.wrap(encodeBuffer, bufferIndex)
                 .partitionId(partitionId)
                 .sequenceNumber(sequenceNumber)
-                .putClientOrderId(clientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
                 .status(status)
                 .transactTime(transactTime)
                 .rejectCode(rejectCode)

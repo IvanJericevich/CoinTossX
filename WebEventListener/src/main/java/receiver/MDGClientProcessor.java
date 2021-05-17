@@ -98,7 +98,7 @@ public class MDGClientProcessor implements FragmentHandler,Runnable {
         orderExecutedReader.readBuffer(temp);
 
         tradeVODisruptor.addTradeVO(orderExecutedReader.getInstrumentId(),orderExecutedReader.getTradeId(),orderExecutedReader.getClientOrderId(),
-                (int)orderExecutedReader.getPrice(),orderExecutedReader.getExecutedQuantity(),orderExecutedReader.getExecutedTime());
+                (int)orderExecutedReader.getPrice(),orderExecutedReader.getExecutedQuantity(),orderExecutedReader.getExecutedTime(),orderExecutedReader.getTraderMnemonic());
     }
 
     private void readOrderView() throws Exception {
@@ -106,7 +106,7 @@ public class MDGClientProcessor implements FragmentHandler,Runnable {
 
         orderVODisruptor.addOrderVO(orderViewReader.getSecurityId(),orderViewReader.getOrderId(),orderViewReader.getClientOrderId(),
                 orderViewReader.getSide(),orderViewReader.getSubmittedTime(),
-                orderViewReader.getOrderQuantity(),orderViewReader.getPrice());
+                orderViewReader.getOrderQuantity(),orderViewReader.getPrice(),orderViewReader.getTraderMnemonic());
     }
 
     private void readAdminMessage() throws Exception {

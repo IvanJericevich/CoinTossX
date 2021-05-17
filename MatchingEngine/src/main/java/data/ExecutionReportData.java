@@ -19,7 +19,7 @@ public enum ExecutionReportData {
     INSTANCE;
 
     private int compID;
-    private byte[] clientOrderId = new byte[ExecutionReportDecoder.clientOrderIdLength()];
+    private int clientOrderId;
     private int orderId;
     private ExecutionTypeEnum executionType;
     private OrderStatusEnum orderStatus;
@@ -54,11 +54,11 @@ public enum ExecutionReportData {
         return fillGroups;
     }
 
-    public byte[] getClientOrderId() {
+    public int getClientOrderId() {
         return clientOrderId;
     }
 
-    public void setClientOrderId(byte[] clientOrderId) {
+    public void setClientOrderId(int clientOrderId) {
         this.clientOrderId = clientOrderId;
     }
 
@@ -146,16 +146,15 @@ public enum ExecutionReportData {
     }
 
     public void buildOrderView(OrderEntry aggOrder, long securityId){
-        UnsafeBuffer clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderViewEncoder.clientOrderIdLength()));
-        clientOrderId.wrap(BuilderUtil.fill(Long.toString(aggOrder.getClientOrderId()), OrderViewEncoder.clientOrderIdLength()).getBytes());
         orderViewBuilder.compID(getCompID())
                 .orderId((int) aggOrder.getOrderId())
-                .clientOrderId(clientOrderId.byteArray())
+                .clientOrderId(aggOrder.getClientOrderId())
                 .orderQuantity(aggOrder.getQuantity())
                 .price(aggOrder.getPrice())
                 .side(aggOrder.getSide() == 1 ? SideEnum.Buy : SideEnum.Sell)
                 .submittedTime(java.time.Instant.now().toEpochMilli())
-                .securityId((int)securityId);
+                .securityId((int)securityId)
+                .traderMnemonic(aggOrder.getTrader());
     }
 
     public DirectBuffer getOrderView(){

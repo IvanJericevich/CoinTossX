@@ -43,7 +43,7 @@ public class CrossingProcessorHDRTest {
 
     public DirectBuffer createNewOrder(){
         return newOrderBuilder.compID(1)
-                .clientOrderId("1                   ".getBytes())
+                .clientOrderId(1)
                 .account("account123".getBytes())
                 .capacity(CapacityEnum.Agency)
                 .cancelOnDisconnect(CancelOnDisconnectEnum.DoNotCancel)

@@ -48,6 +48,7 @@ public class OrderExecutedWithPriceSizeReaderTest {
                 .price(1000)
                 .instrumentId(1)
                 .executedTime(java.time.Instant.now().toEpochMilli())
+                .traderMnemonic(1)
                 .build();
 
     }

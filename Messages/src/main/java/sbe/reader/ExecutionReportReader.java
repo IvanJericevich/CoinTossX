@@ -13,7 +13,6 @@ public class ExecutionReportReader {
     private ExecutionReportDecoder executionReport;
     private MessageHeaderDecoder messageHeader;
     private byte[] executionId;
-    private byte[] clientOrderId;
     private byte[] trader;
     private byte[] account;
 
@@ -23,7 +22,6 @@ public class ExecutionReportReader {
         messageHeader = new MessageHeaderDecoder();
         executionReport = new ExecutionReportDecoder();
         executionId = new byte[ExecutionReportDecoder.executionIDLength()];
-        clientOrderId = new byte[ExecutionReportDecoder.clientOrderIdLength()];
         trader = new byte[ExecutionReportDecoder.traderMnemonicLength()];
         account = new byte[ExecutionReportDecoder.accountLength()];
     }
@@ -42,7 +40,7 @@ public class ExecutionReportReader {
         sb.append("PartitionId=" + executionReport.partitionId());
         sb.append("SequenceNumber=" + executionReport.sequenceNumber());
         sb.append("ExecutionId=" + new String(executionId, 0, executionReport.getExecutionID(executionId, 0), ExecutionReportDecoder.executionIDCharacterEncoding()));
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, executionReport.getClientOrderId(clientOrderId, 0), ExecutionReportDecoder.clientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + executionReport.clientOrderId());
         sb.append("OrderId=" + executionReport.orderId());
         sb.append("ExecutionType=" + executionReport.executionType());
         sb.append("OrderStatus=" + executionReport.orderStatus());

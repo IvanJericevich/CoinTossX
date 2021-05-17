@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.MutableDirectBuffer;
 @SuppressWarnings("all")
 public class OrderCancelRejectEncoder
 {
-    public static final int BLOCK_LENGTH = 42;
+    public static final int BLOCK_LENGTH = 26;
     public static final int TEMPLATE_ID = 14;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -113,49 +113,23 @@ public class OrderCancelRejectEncoder
         return this;
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int clientOrderIdLength()
+    public OrderCancelRejectEncoder clientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void clientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 5 + (index * 1), value);
-    }
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public OrderCancelRejectEncoder putClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 5, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 5, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -175,7 +149,7 @@ public class OrderCancelRejectEncoder
     }
     public OrderCancelRejectEncoder orderId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 25, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 9, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -195,17 +169,17 @@ public class OrderCancelRejectEncoder
     }
     public OrderCancelRejectEncoder transactTime(final long value)
     {
-        CodecUtil.uint64Put(buffer, offset + 29, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.uint64Put(buffer, offset + 13, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public OrderCancelRejectEncoder rejectCode(final RejectCode value)
     {
-        CodecUtil.int32Put(buffer, offset + 37, value.value(), java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 21, value.value(), java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
     public OrderCancelRejectEncoder orderBook(final OrderBookEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 41, value.value());
+        CodecUtil.uint8Put(buffer, offset + 25, value.value());
         return this;
     }
 }

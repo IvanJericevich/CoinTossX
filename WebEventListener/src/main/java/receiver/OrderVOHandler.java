@@ -21,6 +21,7 @@ public class OrderVOHandler implements EventHandler<OrderVOMessageEvent> {
         orderVO.setSubmittedTime(event.getSubmittedTime());
         orderVO.setVolume(event.getVolume());
         orderVO.setPrice(event.getPrice());
+        orderVO.setTraderMnemonic(event.getTraderMnemonic());
 
         offHeapStorage.addSubmittedOrder(event.getSecurityId(), orderVO);
     }

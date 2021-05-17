@@ -49,6 +49,6 @@ public class OrderCancelReplaceRequestParser {
 
     private void populateExecutionData(){
         ExecutionReportData executionReportData = ExecutionReportData.INSTANCE;
-        orderCancelReplaceRequest.getClientOrderId(executionReportData.getClientOrderId(),0);
+        executionReportData.setClientOrderId(orderCancelReplaceRequest.clientOrderId());
     }
 }

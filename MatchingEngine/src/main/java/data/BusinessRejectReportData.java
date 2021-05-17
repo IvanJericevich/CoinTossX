@@ -12,7 +12,7 @@ public enum BusinessRejectReportData {
 
     private int compID;
     private int orderId;
-    private byte[] clientOrderId = new byte[ExecutionReportDecoder.clientOrderIdLength()];
+    private int clientOrderId;
     private RejectCode rejectCode = RejectCode.NULL_VAL;
 
     private BusinessRejectBuilder businessReject = new BusinessRejectBuilder();
@@ -38,11 +38,11 @@ public enum BusinessRejectReportData {
         this.orderId = orderId;
     }
 
-    public byte[] getClientOrderId() {
+    public int getClientOrderId() {
         return clientOrderId;
     }
 
-    public void setClientOrderId(byte[] clientOrderId) {
+    public void setClientOrderId(int clientOrderId) {
         this.clientOrderId = clientOrderId;
     }
 

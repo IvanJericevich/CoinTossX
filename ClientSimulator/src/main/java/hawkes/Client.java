@@ -211,11 +211,10 @@ public class Client {
     }
 
     public DirectBuffer createNewOrder(long volume, long price,SideEnum side,OrdTypeEnum orderType){
-        String clientOrderId = clientData.getCompID() + "" + uniqueOrderId++;
-        clientOrderId = BuilderUtil.fill(clientOrderId, NewOrderEncoder.clientOrderIdLength());
+        int clientOrderId = (int) uniqueOrderId++;
 
         DirectBuffer directBuffer = newOrderBuilder.compID(clientData.getCompID())
-                .clientOrderId(clientOrderId.getBytes())
+                .clientOrderId(clientOrderId)
                 .account("account123".getBytes())
                 .capacity(CapacityEnum.Agency)
                 .cancelOnDisconnect(CancelOnDisconnectEnum.DoNotCancel)

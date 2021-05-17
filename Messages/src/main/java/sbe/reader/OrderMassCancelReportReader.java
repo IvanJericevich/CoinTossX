@@ -12,15 +12,12 @@ public class OrderMassCancelReportReader {
     private int bufferIndex;
     private OrderMassCancelReportDecoder orderMassCancelReport;
     private MessageHeaderDecoder messageHeader;
-    private byte[] clientOrderId;
 
     public OrderMassCancelReportReader(){
         sb = new StringBuilder();
         bufferIndex = 0;
         orderMassCancelReport = new OrderMassCancelReportDecoder();
         messageHeader = new MessageHeaderDecoder();
-
-        clientOrderId = new byte[OrderCancelRejectDecoder.clientOrderIdLength()];
     }
 
 
@@ -37,7 +34,7 @@ public class OrderMassCancelReportReader {
 
         sb.append("PartitionId=" + orderMassCancelReport.partitionId());
         sb.append("SequenceNumber=" + orderMassCancelReport.sequenceNumber());
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, orderMassCancelReport.getClientOrderId(clientOrderId, 0), OrderMassCancelReportDecoder.clientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + orderMassCancelReport.clientOrderId());
         sb.append("Status=" + orderMassCancelReport.status());
         sb.append("TransactTime=" + orderMassCancelReport.transactTime());
         sb.append("RejectCode=" + orderMassCancelReport.rejectCode());

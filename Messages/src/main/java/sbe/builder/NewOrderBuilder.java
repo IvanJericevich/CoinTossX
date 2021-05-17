@@ -17,7 +17,7 @@ public class NewOrderBuilder {
     private int orderQuantity;
     private int displayQuantity;
     private int minQuantity;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private UnsafeBuffer traderMnemonic;
     private UnsafeBuffer account;
     private OrdTypeEnum orderType;
@@ -37,7 +37,6 @@ public class NewOrderBuilder {
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
 
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(NewOrderEncoder.clientOrderIdLength()));
         traderMnemonic = new UnsafeBuffer(ByteBuffer.allocateDirect(NewOrderEncoder.traderMnemonicLength()));
         account = new UnsafeBuffer(ByteBuffer.allocateDirect(NewOrderEncoder.accountLength()));
         expireTime = new UnsafeBuffer(ByteBuffer.allocateDirect(NewOrderEncoder.expireTimeLength()));
@@ -48,14 +47,8 @@ public class NewOrderBuilder {
         return this;
     }
 
-    public NewOrderBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
-        return this;
-    }
-
-    public NewOrderBuilder clientOrderId(String value){
-        value = BuilderUtil.fill(value, NewOrderEncoder.clientOrderIdLength());
-        this.clientOrderId.wrap(value.getBytes());
+    public NewOrderBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -150,7 +143,7 @@ public class NewOrderBuilder {
 
         bufferIndex += messageHeader.encodedLength();
         newOrder.wrap(encodeBuffer, bufferIndex)
-                .putClientOrderId(clientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
                 .securityId(securityId)
                 .putTraderMnemonic(traderMnemonic.byteArray(),0)
                 .putAccount(account.byteArray(),0)

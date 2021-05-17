@@ -194,7 +194,7 @@
     <!-- Client Messages -->
 
     <me:message name="NewOrder" id="9" description="New Order Message">
-        <field name="clientOrderId" id="1" type="idString20"/>
+        <field name="clientOrderId" id="1" type="int32"/>
         <field name="securityId" id="2" type="int32"/>
         <field name="traderMnemonic" id="3" type="idString17"/>
         <field name="account" id="4" type="idString10"/>
@@ -213,8 +213,8 @@
     </me:message>
 
     <me:message name="OrderCancelRequest" id="10" description="Order Cancel Request Message">
-        <field name="clientOrderId" id="1" type="idString20"/>
-        <field name="origClientOrderId" id="2" type="idString20"/>
+        <field name="clientOrderId" id="1" type="int32"/>
+        <field name="origClientOrderId" id="2" type="int32"/>
         <field name="orderId" id="3" type="int32"/>
         <field name="securityId" id="4" type="int32"/>
         <field name="traderMnemonic" id="5" type="idString17"/>
@@ -224,7 +224,7 @@
     </me:message>
 
     <me:message name="OrderMassCancelRequest" id="11" description="Order Mass Cancel Request Message">
-        <field name="clientOrderId" id="1" type="idString20"/>
+        <field name="clientOrderId" id="1" type="int32"/>
         <field name="massCancelRequestType" id="2" type="MassCancelRequestTypeEnum"/>
         <field name="securityId" id="3" type="int32"/>
         <field name="segment" id="4" type="idString6"/>
@@ -233,8 +233,8 @@
     </me:message>
 
     <me:message name="OrderCancelReplaceRequest" id="12" description="Order Cancel Replace Request Message">
-        <field name="clientOrderId" id="1" type="idString20"/>
-        <field name="origClientOrderId" id="2" type="idString20"/>
+        <field name="clientOrderId" id="1" type="int32"/>
+        <field name="origClientOrderId" id="2" type="int32"/>
         <field name="orderId" id="3" type="int32"/>
         <field name="securityId" id="4" type="int32"/>
         <field name="traderMnemonic" id="5" type="idString17"/>
@@ -258,7 +258,7 @@
         <field name="partitionId" id="1" type="uint8"/>
         <field name="sequenceNumber" id="2" type="int32"/>
         <field name="executionID" id="3" type="idString21"/>
-        <field name="clientOrderId" id="4" type="idString20"/>
+        <field name="clientOrderId" id="4" type="int32"/>
         <field name="orderId" id="5" type="int32"/>
         <field name="executionType" id="6" type="ExecutionTypeEnum"/>
         <field name="orderStatus" id="7" type="OrderStatusEnum"/>
@@ -281,7 +281,7 @@
     <me:message name="OrderCancelReject" id="14" description="Order Cancel Reject Message">
         <field name="partitionId" id="1" type="uint8"/>
         <field name="sequenceNumber" id="2" type="int32"/>
-        <field name="clientOrderId" id="3" type="idString20"/>
+        <field name="clientOrderId" id="3" type="int32"/>
         <field name="orderId" id="4" type="int32"/>
         <field name="transactTime" id="5" type="uint64"/>
         <field name="rejectCode" id="6" type="RejectCode"/>
@@ -291,7 +291,7 @@
     <me:message name="OrderMassCancelReport" id="15" description="Order Mass Cancel Report Message">
         <field name="partitionId" id="1" type="uint8"/>
         <field name="sequenceNumber" id="2" type="int32"/>
-        <field name="clientOrderId" id="3" type="idString20"/>
+        <field name="clientOrderId" id="3" type="int32"/>
         <field name="status" id="4" type="OrderMassCancelReportStatusEnum"/>
         <field name="rejectCode" id="5" type="RejectCode"/>
         <field name="transactTime" id="6" type="uint64"/>
@@ -312,7 +312,7 @@
         <field name="partitionId" id="1" type="uint8"/>
         <field name="sequenceNumber" id="2" type="int32"/>
         <field name="rejectCode" id="3" type="BusinessRejectEnum"/>
-        <field name="clientOrderId" id="4" type="idString20"/>
+        <field name="clientOrderId" id="4" type="int32"/>
         <field name="orderId" id="5" type="int32"/>
         <field name="transactTime" id="6" type="uint64"/>
     </me:message>

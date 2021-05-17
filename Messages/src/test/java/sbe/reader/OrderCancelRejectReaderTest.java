@@ -20,18 +20,16 @@ public class OrderCancelRejectReaderTest {
         DirectBuffer buffer = build();
 
         StringBuilder sb = orderCancelRejectReader.read(buffer);
-        assertEquals("PartitionId=1SequenceNumber=1ClientOrderId=2                   OrderId=1TransactTime=10000RejectCode=InvalidCompIDOrPasswordOrderBook=Regular",sb.toString());
+        assertEquals("PartitionId=1SequenceNumber=1ClientOrderId=2OrderId=1TransactTime=10000RejectCode=InvalidCompIDOrPasswordOrderBook=Regular",sb.toString());
 
     }
 
     private DirectBuffer build(){
         OrderCancelRejectBuilder orderCancelRejectBuilder = new OrderCancelRejectBuilder();
-        String clientOrderId = BuilderUtil.fill("2", OrderCancelRejectEncoder.clientOrderIdLength());
-
         return orderCancelRejectBuilder.compID(1)
                 .partitionId((short)1)
                 .sequenceNumber(1)
-                .clientOrderId(clientOrderId.getBytes())
+                .clientOrderId(2)
                 .orderId(1)
                 .transactTime(10000)
                 .rejectCode(RejectCode.InvalidCompIDOrPassword)

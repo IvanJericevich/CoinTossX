@@ -11,8 +11,6 @@ public class OrderCancelReplaceRequestReader {
     private int bufferIndex;
     private OrderCancelReplaceRequestDecoder orderCancelReplaceRequest;
     private MessageHeaderDecoder messageHeader;
-    private byte[] clientOrderId;
-    private byte[] origClientOrderId;
     private byte[] traderMnemonic;
     private byte[] account;
     private byte[] expireTime;
@@ -22,8 +20,6 @@ public class OrderCancelReplaceRequestReader {
         bufferIndex = 0;
         messageHeader = new MessageHeaderDecoder();
         orderCancelReplaceRequest = new OrderCancelReplaceRequestDecoder();
-        clientOrderId = new byte[OrderCancelReplaceRequestDecoder.clientOrderIdLength()];
-        origClientOrderId = new byte[OrderCancelReplaceRequestDecoder.origClientOrderIdLength()];
         traderMnemonic = new byte[OrderCancelReplaceRequestDecoder.traderMnemonicLength()];
         account = new byte[OrderCancelReplaceRequestDecoder.accountLength()];
         expireTime = new byte[OrderCancelReplaceRequestDecoder.expireTimeLength()];
@@ -40,8 +36,8 @@ public class OrderCancelReplaceRequestReader {
 
         orderCancelReplaceRequest.wrap(buffer, bufferIndex, actingBlockLength, actingVersion);
 
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, orderCancelReplaceRequest.getClientOrderId(clientOrderId, 0), OrderCancelReplaceRequestDecoder.clientOrderIdCharacterEncoding()));
-        sb.append("OrigClientOrderId=" + new String(origClientOrderId, 0, orderCancelReplaceRequest.getOrigClientOrderId(origClientOrderId, 0), OrderCancelReplaceRequestDecoder.origClientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + orderCancelReplaceRequest.clientOrderId());
+        sb.append("OrigClientOrderId=" + orderCancelReplaceRequest.origClientOrderId());
         sb.append("OrderId=" + orderCancelReplaceRequest.orderId());
         sb.append("SecurityId=" + orderCancelReplaceRequest.securityId());
         sb.append("TraderMnemonic=" + new String(traderMnemonic, 0, orderCancelReplaceRequest.getTraderMnemonic(traderMnemonic, 0), OrderCancelReplaceRequestDecoder.traderMnemonicCharacterEncoding()));

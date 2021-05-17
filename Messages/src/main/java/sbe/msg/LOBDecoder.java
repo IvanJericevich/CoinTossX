@@ -162,7 +162,7 @@ public class LOBDecoder
 
         public static int sbeBlockLength()
         {
-            return 37;
+            return 21;
         }
 
         public int actingBlockLength()
@@ -349,52 +349,24 @@ public class LOBDecoder
             return "";
         }
 
-        public static byte clientOrderIdNullValue()
+        public static int clientOrderIdNullValue()
         {
-            return (byte)0;
+            return -2147483648;
         }
 
-        public static byte clientOrderIdMinValue()
+        public static int clientOrderIdMinValue()
         {
-            return (byte)32;
+            return -2147483647;
         }
 
-        public static byte clientOrderIdMaxValue()
+        public static int clientOrderIdMaxValue()
         {
-            return (byte)126;
+            return 2147483647;
         }
 
-        public static int clientOrderIdLength()
+        public int clientOrderId()
         {
-            return 20;
-        }
-
-        public byte clientOrderId(final int index)
-        {
-            if (index < 0 || index >= 20)
-            {
-                throw new IndexOutOfBoundsException("index out of range: index=" + index);
-            }
-
-            return CodecUtil.charGet(buffer, this.offset + 17 + (index * 1));
-        }
-
-
-        public static String clientOrderIdCharacterEncoding()
-        {
-            return "UTF-8";
-        }
-
-        public int getClientOrderId(final byte[] dst, final int dstOffset)
-        {
-            final int length = 20;
-            if (dstOffset < 0 || dstOffset > (dst.length - length))
-            {
-                throw new IndexOutOfBoundsException(    "dstOffset out of range for copy: offset=" + dstOffset);
-            }
-
-            CodecUtil.charsGet(buffer, this.offset + 17, dst, dstOffset, length);
-            return length;
+            return CodecUtil.int32Get(buffer, offset + 17, java.nio.ByteOrder.LITTLE_ENDIAN);
         }
 
     }

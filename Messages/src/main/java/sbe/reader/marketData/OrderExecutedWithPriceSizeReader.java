@@ -13,10 +13,11 @@ public class OrderExecutedWithPriceSizeReader {
 
     private int executedQuantity;
     private int tradeId;
-    private long clientOrderId;
+    private int clientOrderId;
     private long price;
     private int instrumentId;
     private long executedTime;
+    private int traderMnemonic;
 
     public OrderExecutedWithPriceSizeReader(){
         sb = new StringBuilder();
@@ -47,6 +48,7 @@ public class OrderExecutedWithPriceSizeReader {
         sb.append("Price=" + orderExecutedWithPriceSize.price().mantissa());
         sb.append("InstrumentId=" + orderExecutedWithPriceSize.instrumentId());
         sb.append("ExecutedTime=" + orderExecutedWithPriceSize.executedTime());
+        sb.append("TraderMnemonic" + orderExecutedWithPriceSize.traderMnemonic());
 
         return sb;
     }
@@ -72,6 +74,7 @@ public class OrderExecutedWithPriceSizeReader {
         price = orderExecutedWithPriceSize.price().mantissa();
         instrumentId = (int)orderExecutedWithPriceSize.instrumentId();
         executedTime = orderExecutedWithPriceSize.executedTime();
+        traderMnemonic = orderExecutedWithPriceSize.traderMnemonic();
     }
 
     public int getExecutedQuantity() {
@@ -82,7 +85,7 @@ public class OrderExecutedWithPriceSizeReader {
         return tradeId;
     }
 
-    public long getClientOrderId() {
+    public int getClientOrderId() {
         return clientOrderId;
     }
 
@@ -96,5 +99,9 @@ public class OrderExecutedWithPriceSizeReader {
 
     public long getExecutedTime() {
         return executedTime;
+    }
+
+    public int getTraderMnemonic() {
+        return traderMnemonic;
     }
 }

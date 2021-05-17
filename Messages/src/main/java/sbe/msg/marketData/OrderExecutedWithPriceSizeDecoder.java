@@ -393,24 +393,24 @@ public class OrderExecutedWithPriceSizeDecoder
         return "";
     }
 
-    public static long clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return 0xffffffffffffffffL;
+        return -2147483648;
     }
 
-    public static long clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return 0x0L;
+        return -2147483647;
     }
 
-    public static long clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return 0xfffffffffffffffeL;
+        return 2147483647;
     }
 
-    public long clientOrderId()
+    public int clientOrderId()
     {
-        return CodecUtil.uint64Get(buffer, offset + 38, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.int32Get(buffer, offset + 38, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 
@@ -448,7 +448,45 @@ public class OrderExecutedWithPriceSizeDecoder
 
     public long executedTime()
     {
-        return CodecUtil.uint64Get(buffer, offset + 46, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return CodecUtil.uint64Get(buffer, offset + 42, java.nio.ByteOrder.LITTLE_ENDIAN);
+    }
+
+
+    public static int traderMnemonicId()
+    {
+        return 3;
+    }
+
+    public static String traderMnemonicMetaAttribute(final MetaAttribute metaAttribute)
+    {
+        switch (metaAttribute)
+        {
+            case EPOCH: return "unix";
+            case TIME_UNIT: return "nanosecond";
+            case SEMANTIC_TYPE: return "";
+        }
+
+        return "";
+    }
+
+    public static int traderMnemonicNullValue()
+    {
+        return -2147483648;
+    }
+
+    public static int traderMnemonicMinValue()
+    {
+        return -2147483647;
+    }
+
+    public static int traderMnemonicMaxValue()
+    {
+        return 2147483647;
+    }
+
+    public int traderMnemonic()
+    {
+        return CodecUtil.int32Get(buffer, offset + 50, java.nio.ByteOrder.LITTLE_ENDIAN);
     }
 
 }

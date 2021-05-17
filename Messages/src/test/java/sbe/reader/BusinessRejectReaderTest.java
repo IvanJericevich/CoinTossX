@@ -24,7 +24,7 @@ public class BusinessRejectReaderTest {
 
         StringBuilder sb = businessRejectReader.read(buffer);
         assertEquals("PartitionId=1SequenceNumber=1RejectCode=UnknownInstrumentClientOrderId=2" +
-                     "                   OrderId=1TransactTime=36000000000000",sb.toString());
+                     "OrderId=1TransactTime=36000000000000",sb.toString());
     }
 
     private DirectBuffer build(){
@@ -32,9 +32,7 @@ public class BusinessRejectReaderTest {
         businessRejectBuilder.partitionId((short)1)
                              .sequenceNumber(1)
                              .businessRejectEnum(BusinessRejectEnum.UnknownInstrument);
-
-        String clientOrderId = BuilderUtil.fill("2", BusinessRejectEncoder.clientOrderIdLength());
-        businessRejectBuilder.clientOrderId(clientOrderId.getBytes());
+        businessRejectBuilder.clientOrderId(2);
 
         long time = LocalTime.of(10,0).getLong(ChronoField.NANO_OF_DAY);
         businessRejectBuilder.orderId(1).transactTime(time);

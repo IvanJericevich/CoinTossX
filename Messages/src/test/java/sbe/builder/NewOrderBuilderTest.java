@@ -13,16 +13,13 @@ public class NewOrderBuilderTest {
 
     @Test
     public void testNewOrder(){
-        LogonBuilder logonBuilder = new LogonBuilder();
         DirectBuffer buffer = createNewOrder(1200, 2500, SideEnum.Buy, OrdTypeEnum.Limit);
         Assert.assertNotNull(buffer);
     }
 
     public DirectBuffer createNewOrder(long volume, long price,SideEnum side,OrdTypeEnum orderType){
-        String clientOrderId = "1234";
-
         DirectBuffer directBuffer = newOrderBuilder.compID(1)
-                .clientOrderId(clientOrderId)
+                .clientOrderId(1234)
                 .account("account123".getBytes())
                 .capacity(CapacityEnum.Agency)
                 .cancelOnDisconnect(CancelOnDisconnectEnum.DoNotCancel)

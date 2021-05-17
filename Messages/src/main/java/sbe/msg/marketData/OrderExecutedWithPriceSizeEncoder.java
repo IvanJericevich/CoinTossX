@@ -211,23 +211,23 @@ public class OrderExecutedWithPriceSizeEncoder
         return this;
     }
 
-    public static long clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return 0xffffffffffffffffL;
+        return -2147483648;
     }
 
-    public static long clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return 0x0L;
+        return -2147483647;
     }
 
-    public static long clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return 0xfffffffffffffffeL;
+        return 2147483647;
     }
-    public OrderExecutedWithPriceSizeEncoder clientOrderId(final long value)
+    public OrderExecutedWithPriceSizeEncoder clientOrderId(final int value)
     {
-        CodecUtil.uint64Put(buffer, offset + 38, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 38, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -247,7 +247,27 @@ public class OrderExecutedWithPriceSizeEncoder
     }
     public OrderExecutedWithPriceSizeEncoder executedTime(final long value)
     {
-        CodecUtil.uint64Put(buffer, offset + 46, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.uint64Put(buffer, offset + 42, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return this;
+    }
+
+    public static int traderMnemonicNullValue()
+    {
+        return -2147483648;
+    }
+
+    public static int traderMnemonicMinValue()
+    {
+        return -2147483647;
+    }
+
+    public static int traderMnemonicMaxValue()
+    {
+        return 2147483647;
+    }
+    public OrderExecutedWithPriceSizeEncoder traderMnemonic(final int value)
+    {
+        CodecUtil.int32Put(buffer, offset + 50, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 }

@@ -11,15 +11,12 @@ public class OrderCancelRejectReader {
     private int bufferIndex;
     private OrderCancelRejectDecoder orderCancelReject;
     private MessageHeaderDecoder messageHeader;
-    private byte[] clientOrderId;
 
     public OrderCancelRejectReader(){
         sb = new StringBuilder();
         bufferIndex = 0;
         orderCancelReject = new OrderCancelRejectDecoder();
         messageHeader = new MessageHeaderDecoder();
-
-        clientOrderId = new byte[OrderCancelRejectDecoder.clientOrderIdLength()];
     }
 
     public StringBuilder read(DirectBuffer buffer) throws UnsupportedEncodingException {
@@ -35,7 +32,7 @@ public class OrderCancelRejectReader {
 
         sb.append("PartitionId=" + orderCancelReject.partitionId());
         sb.append("SequenceNumber=" + orderCancelReject.sequenceNumber());
-        sb.append("ClientOrderId=" + new String(clientOrderId, 0, orderCancelReject.getClientOrderId(clientOrderId, 0), OrderCancelRejectDecoder.clientOrderIdCharacterEncoding()));
+        sb.append("ClientOrderId=" + orderCancelReject.clientOrderId());
         sb.append("OrderId=" + orderCancelReject.orderId());
         sb.append("TransactTime=" + orderCancelReject.transactTime());
         sb.append("RejectCode=" + orderCancelReject.rejectCode());

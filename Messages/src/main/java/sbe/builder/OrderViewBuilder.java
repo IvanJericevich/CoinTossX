@@ -18,11 +18,12 @@ public class OrderViewBuilder {
     private int compID;
     private int securityId;
     private int orderId;
-    private UnsafeBuffer clientOrderId;
+    private int clientOrderId;
     private long submittedTime;
     private SideEnum side;
     private long price;
     private int orderQuantity;
+    private int traderMnemonic;
 
     public static int BUFFER_SIZE = 106;
 
@@ -30,7 +31,6 @@ public class OrderViewBuilder {
         orderView = new OrderViewEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelRequestEncoder.clientOrderIdLength()));
     }
 
     public void reset(){
@@ -53,8 +53,8 @@ public class OrderViewBuilder {
         return this;
     }
 
-    public OrderViewBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public OrderViewBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
@@ -78,6 +78,10 @@ public class OrderViewBuilder {
         return this;
     }
 
+    public OrderViewBuilder traderMnemonic(int value){
+        this.traderMnemonic = value;
+        return this;
+    }
 
     public DirectBuffer build(){
         if(orderId == 0){
@@ -97,13 +101,14 @@ public class OrderViewBuilder {
 
         orderView.securityId(securityId);
         orderView.orderId(orderId);
-        orderView.putClientOrderId(clientOrderId.byteArray(), 0);
+        orderView.clientOrderId(clientOrderId);
 
         orderView.submittedTime(submittedTime);
         orderView.side(side);
         orderView.price().mantissa(price);
 
         orderView.orderQuantity(orderQuantity);
+        orderView.traderMnemonic(traderMnemonic);
 
         return encodeBuffer;
     }

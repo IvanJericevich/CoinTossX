@@ -7,7 +7,7 @@ import uk.co.real_logic.agrona.MutableDirectBuffer;
 @SuppressWarnings("all")
 public class NewOrderEncoder
 {
-    public static final int BLOCK_LENGTH = 102;
+    public static final int BLOCK_LENGTH = 86;
     public static final int TEMPLATE_ID = 9;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -73,49 +73,23 @@ public class NewOrderEncoder
         this.limit = limit;
     }
 
-    public static byte clientOrderIdNullValue()
+    public static int clientOrderIdNullValue()
     {
-        return (byte)0;
+        return -2147483648;
     }
 
-    public static byte clientOrderIdMinValue()
+    public static int clientOrderIdMinValue()
     {
-        return (byte)32;
+        return -2147483647;
     }
 
-    public static byte clientOrderIdMaxValue()
+    public static int clientOrderIdMaxValue()
     {
-        return (byte)126;
+        return 2147483647;
     }
-
-    public static int clientOrderIdLength()
+    public NewOrderEncoder clientOrderId(final int value)
     {
-        return 20;
-    }
-
-    public void clientOrderId(final int index, final byte value)
-    {
-        if (index < 0 || index >= 20)
-        {
-            throw new IndexOutOfBoundsException("index out of range: index=" + index);
-        }
-
-        CodecUtil.charPut(buffer, this.offset + 0 + (index * 1), value);
-    }
-
-    public static String clientOrderIdCharacterEncoding()
-    {
-        return "UTF-8";
-    }
-    public NewOrderEncoder putClientOrderId(final byte[] src, final int srcOffset)
-    {
-        final int length = 20;
-        if (srcOffset < 0 || srcOffset > (src.length - length))
-        {
-            throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
-        }
-
-        CodecUtil.charsPut(buffer, this.offset + 0, src, srcOffset, length);
+        CodecUtil.int32Put(buffer, offset + 0, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -135,7 +109,7 @@ public class NewOrderEncoder
     }
     public NewOrderEncoder securityId(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 20, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 4, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -166,7 +140,7 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 24 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 8 + (index * 1), value);
     }
 
     public static String traderMnemonicCharacterEncoding()
@@ -181,7 +155,7 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 24, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 8, src, srcOffset, length);
         return this;
     }
 
@@ -212,7 +186,7 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 41 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 25 + (index * 1), value);
     }
 
     public static String accountCharacterEncoding()
@@ -227,17 +201,17 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 41, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 25, src, srcOffset, length);
         return this;
     }
     public NewOrderEncoder orderType(final OrdTypeEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 51, value.value());
+        CodecUtil.uint8Put(buffer, offset + 35, value.value());
         return this;
     }
     public NewOrderEncoder timeInForce(final TimeInForceEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 52, value.value());
+        CodecUtil.uint8Put(buffer, offset + 36, value.value());
         return this;
     }
 
@@ -268,7 +242,7 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("index out of range: index=" + index);
         }
 
-        CodecUtil.charPut(buffer, this.offset + 53 + (index * 1), value);
+        CodecUtil.charPut(buffer, this.offset + 37 + (index * 1), value);
     }
 
     public static String expireTimeCharacterEncoding()
@@ -283,12 +257,12 @@ public class NewOrderEncoder
             throw new IndexOutOfBoundsException("srcOffset out of range for copy: offset=" + srcOffset);
         }
 
-        CodecUtil.charsPut(buffer, this.offset + 53, src, srcOffset, length);
+        CodecUtil.charsPut(buffer, this.offset + 37, src, srcOffset, length);
         return this;
     }
     public NewOrderEncoder side(final SideEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 70, value.value());
+        CodecUtil.uint8Put(buffer, offset + 54, value.value());
         return this;
     }
 
@@ -308,7 +282,7 @@ public class NewOrderEncoder
     }
     public NewOrderEncoder orderQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 71, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 55, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -328,7 +302,7 @@ public class NewOrderEncoder
     }
     public NewOrderEncoder displayQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 75, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 59, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -348,7 +322,7 @@ public class NewOrderEncoder
     }
     public NewOrderEncoder minQuantity(final int value)
     {
-        CodecUtil.int32Put(buffer, offset + 79, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        CodecUtil.int32Put(buffer, offset + 63, value, java.nio.ByteOrder.LITTLE_ENDIAN);
         return this;
     }
 
@@ -356,7 +330,7 @@ public class NewOrderEncoder
 
     public PriceEncoder limitPrice()
     {
-        limitPrice.wrap(buffer, offset + 83);
+        limitPrice.wrap(buffer, offset + 67);
         return limitPrice;
     }
 
@@ -364,22 +338,22 @@ public class NewOrderEncoder
 
     public PriceEncoder stopPrice()
     {
-        stopPrice.wrap(buffer, offset + 91);
+        stopPrice.wrap(buffer, offset + 75);
         return stopPrice;
     }
     public NewOrderEncoder capacity(final CapacityEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 99, value.value());
+        CodecUtil.uint8Put(buffer, offset + 83, value.value());
         return this;
     }
     public NewOrderEncoder cancelOnDisconnect(final CancelOnDisconnectEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 100, value.value());
+        CodecUtil.uint8Put(buffer, offset + 84, value.value());
         return this;
     }
     public NewOrderEncoder orderBook(final OrderBookEnum value)
     {
-        CodecUtil.uint8Put(buffer, offset + 101, value.value());
+        CodecUtil.uint8Put(buffer, offset + 85, value.value());
         return this;
     }
 }

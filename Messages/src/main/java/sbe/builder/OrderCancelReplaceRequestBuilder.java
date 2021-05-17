@@ -13,8 +13,8 @@ public class OrderCancelReplaceRequestBuilder {
     private UnsafeBuffer encodeBuffer;
 
     private int compID;
-    private UnsafeBuffer clientOrderId;
-    private UnsafeBuffer origClientOrderId;
+    private int clientOrderId;
+    private int origClientOrderId;
     private int orderId;
     private int securityId;
     private UnsafeBuffer traderMnemonic;
@@ -36,9 +36,6 @@ public class OrderCancelReplaceRequestBuilder {
         orderCancelReplaceRequest = new OrderCancelReplaceRequestEncoder();
         messageHeader = new MessageHeaderEncoder();
         encodeBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(BUFFER_SIZE));
-
-        clientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelReplaceRequestEncoder.clientOrderIdLength()));
-        origClientOrderId = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelReplaceRequestEncoder.origClientOrderIdLength()));
         traderMnemonic = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelReplaceRequestEncoder.traderMnemonicLength()));
         account = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelReplaceRequestEncoder.accountLength()));
         expireTime = new UnsafeBuffer(ByteBuffer.allocateDirect(OrderCancelReplaceRequestEncoder.expireTimeLength()));
@@ -49,13 +46,13 @@ public class OrderCancelReplaceRequestBuilder {
         return this;
     }
 
-    public OrderCancelReplaceRequestBuilder clientOrderId(byte[] value){
-        this.clientOrderId.wrap(value);
+    public OrderCancelReplaceRequestBuilder clientOrderId(int value){
+        this.clientOrderId = value;
         return this;
     }
 
-    public OrderCancelReplaceRequestBuilder origClientOrderId(byte[] value){
-        this.origClientOrderId.wrap(value);
+    public OrderCancelReplaceRequestBuilder origClientOrderId(int value){
+        this.origClientOrderId = value;
         return this;
     }
 
@@ -141,8 +138,8 @@ public class OrderCancelReplaceRequestBuilder {
 
         bufferIndex += messageHeader.encodedLength();
         orderCancelReplaceRequest.wrap(encodeBuffer, bufferIndex)
-                .putClientOrderId(clientOrderId.byteArray(),0)
-                .putOrigClientOrderId(origClientOrderId.byteArray(),0)
+                .clientOrderId(clientOrderId)
+                .origClientOrderId(origClientOrderId)
                 .orderId(orderId)
                 .securityId(securityId)
                 .putTraderMnemonic(traderMnemonic.byteArray(),0)

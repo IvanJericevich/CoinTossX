@@ -9,6 +9,7 @@ public class TradeVOMessageEvent {
     private int quantity;
     private long clientOrderId;
     private long executedTime;
+    private int traderMnemonic;
 
     private final static EventFactory<TradeVOMessageEvent> EVENT_FACTORY = () -> new TradeVOMessageEvent();
 
@@ -62,5 +63,11 @@ public class TradeVOMessageEvent {
 
     public void setExecutedTime(long executedTime) {
         this.executedTime = executedTime;
+    }
+
+    public void setTraderMnemonic(int traderMnemonic) { this.traderMnemonic = traderMnemonic; }
+
+    public int getTraderMnemonic() {
+        return traderMnemonic;
     }
 }
