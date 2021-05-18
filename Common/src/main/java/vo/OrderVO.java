@@ -1,5 +1,6 @@
 package vo;
 
+import sbe.msg.ExecutionTypeEnum;
 import util.CommonUtil;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class OrderVO implements Serializable {
     private String side;
     private int clientOrderId;
     private int traderMnemonic;
+    private ExecutionTypeEnum executionType;
 
     public long getOrderId() {
         return orderId;
@@ -98,16 +100,17 @@ public class OrderVO implements Serializable {
                 getFormattedTime() + "," +
                 price + "," +
                 volume + "," +
-                side;
+                side + "," +
+                executionType;
     }
 
     public Object[] getValues(){
-        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,volume,side};
+        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,volume,side,executionType};
     }
 
     public static String[] getFileHeader(){
         return new String[]{"DateTime","TraderMnemonic","ClientOrderId","Price",
-                "Volume","Side"};
+                "Volume","Side","Type"};
     }
 
     public int getTraderMnemonic() {
@@ -116,5 +119,13 @@ public class OrderVO implements Serializable {
 
     public void setTraderMnemonic(int traderMnemonic) {
         this.traderMnemonic = traderMnemonic;
+    }
+
+    public ExecutionTypeEnum getExecutionType() {
+        return executionType;
+    }
+
+    public void setExecutionType(ExecutionTypeEnum executionType) {
+        this.executionType = executionType;
     }
 }

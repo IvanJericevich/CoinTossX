@@ -1,6 +1,7 @@
 package receiver;
 
 import com.lmax.disruptor.EventFactory;
+import sbe.msg.ExecutionTypeEnum;
 import sbe.msg.SideEnum;
 
 public class OrderVOMessageEvent {
@@ -12,6 +13,7 @@ public class OrderVOMessageEvent {
     private SideEnum side;
     private int clientOrderId;
     private int traderMnemonic;
+    private ExecutionTypeEnum executionType;
 
     private final static EventFactory<OrderVOMessageEvent> EVENT_FACTORY = () -> new OrderVOMessageEvent();
 
@@ -79,5 +81,13 @@ public class OrderVOMessageEvent {
 
     public void setTraderMnemonic(int traderMnemonic) {
         this.traderMnemonic = traderMnemonic;
+    }
+
+    public ExecutionTypeEnum getExecutionType() {
+        return executionType;
+    }
+
+    public void setExecutionType(ExecutionTypeEnum executionType) {
+        this.executionType = executionType;
     }
 }

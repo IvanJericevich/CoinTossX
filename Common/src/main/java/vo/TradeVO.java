@@ -1,5 +1,6 @@
 package vo;
 
+import sbe.msg.marketData.SideEnum;
 import util.CommonUtil;
 
 import java.io.Serializable;
@@ -14,13 +15,16 @@ public class TradeVO implements Serializable {
     private int quantity;
     private long executedTime;
     private int traderMnemonic;
+    private SideEnum side;
 
-    public TradeVO(int tradeId,long clientOrderId,int price,int quantity,long executedTime){
+    public TradeVO(int tradeId,long clientOrderId,int price,int quantity,long executedTime, int traderMnemonic, SideEnum side){
         this.tradeId = tradeId;
         this.clientOrderId = clientOrderId;
         this.price = price;
         this.quantity = quantity;
         this.executedTime = executedTime;
+        this.traderMnemonic = traderMnemonic;
+        this.side = side;
     }
 
     public TradeVO(){}
@@ -58,6 +62,14 @@ public class TradeVO implements Serializable {
         this.quantity = quantity;
     }
 
+    public SideEnum getSide() {
+        return side;
+    }
+
+    public void setSide(SideEnum side) {
+        this.side = side;
+    }
+
     public String getFormattedTime(){
         return CommonUtil.creationTimeFormatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(executedTime), ZoneId.systemDefault()));
     }
@@ -88,11 +100,11 @@ public class TradeVO implements Serializable {
     }
 
     public Object[] getValues(){
-        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,quantity};
+        return new Object[]{getFormattedTime(),traderMnemonic,clientOrderId,price,quantity,side,"Trade"};
     }
 
     public static String[] getFileHeader(){
-        return new String[]{"DateTime","TraderMnemonic","ClientOrderId","Price","Volume"};
+        return new String[]{"DateTime","TraderMnemonic","ClientOrderId","Price","Volume","Side","Type"};
     }
 
     public long getCreationTime() {

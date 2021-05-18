@@ -10,8 +10,8 @@ public class OrderEntry {
     private static int offset = 0;
 
     private static long orderIdOffset = offset += 0;
-    private static long clientOrderIdOffset = offset += Integer.BYTES;
-    private static long origClientOrderIdOffset = offset += Integer.BYTES;
+    private static long clientOrderIdOffset = offset += Byte.BYTES;
+    private static long origClientOrderIdOffset = offset += Byte.BYTES;
     private static long typeOffset = offset += Long.BYTES;
     private static long sideOffSet = offset += Byte.BYTES;
     private static long timeInForceOffSet = offset += Byte.BYTES;

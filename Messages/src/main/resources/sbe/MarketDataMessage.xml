@@ -155,7 +155,8 @@
         <field name="instrumentId" id="9" type="uint32"/>
         <field name="clientOrderId" id="10" type="int32"/>
         <field name="executedTime" id="11" type="uint64"/>
-        <field name="traderMnemonic" id="3" type="int32"/>
+        <field name="traderMnemonic" id="12" type="int32"/>
+        <field name="side" id="13" type="SideEnum"/>
     </me:message>
 
     <me:message name="Trade" id="24" description="Trade Message">

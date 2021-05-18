@@ -15,6 +15,7 @@ import orderBook.OrderBook;
 import orderBook.Trade;
 import sbe.msg.ExecutionTypeEnum;
 import sbe.msg.OrderStatusEnum;
+import sbe.msg.SideEnum;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -249,7 +250,7 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
             OrderEntry currentOrder = iterator.next().value;
             int quantity = MatchingUtil.getExecutionQuantity(currentOrder.getQuantity(), aggOrder.getQuantity(), currentOrder.getMinExecutionSize(),aggOrder.getMinExecutionSize());
             if(quantity > 0) {
-                addTrade(price, quantity, currentOrder.getClientOrderId(), java.time.Instant.now().toEpochMilli(), aggOrder.getTrader());
+                addTrade(price, quantity, aggOrder.getSide(), currentOrder.getClientOrderId(), java.time.Instant.now().toEpochMilli(), aggOrder.getTrader());
                 aggOrder.removeQuantity(quantity);
                 currentOrder.removeQuantity(quantity);
 
@@ -302,7 +303,7 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
         return false;
     }
 
-    private void addTrade(long price, long quantity, int clientOrderId, long executedTime, int traderMnemonic){
+    private void addTrade(long price, long quantity, int side, int clientOrderId, long executedTime, int traderMnemonic){
         Trade trade = new Trade();
         trade.setId(tradeId.incrementAndGet());
         trade.setPrice(price);
@@ -311,7 +312,7 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
         orderBook.getTrades().add(trade);
         ExecutionReportData.INSTANCE.setExecutionType(ExecutionTypeEnum.Trade);
         ExecutionReportData.INSTANCE.addFillGroup(clientOrderId, price,(int)quantity);
-        MarketData.INSTANCE.addTrade(trade.getId(),clientOrderId,price,quantity,executedTime,traderMnemonic);
+        MarketData.INSTANCE.addTrade(trade.getId(),clientOrderId,price,quantity,side,executedTime,traderMnemonic);
         setReferencePrice(price);
     }
 

@@ -151,13 +151,13 @@ public class Client {
 
     public void waitForMarketDataUpdate() { while(!mktDataUpdateSemaphore.acquire()){} }
 
-    public void submitOrder(int clientOrderId, String traderMnemonic, long volume, long price, String side, String orderType, String timeInForce, long displayQuantity, long minQuantity, long stopPrice) {
+    public void submitOrder(int clientOrderId, String traderMnemonic, long volume, long price, String side, String orderType, String timeInForce, String expireTime, long displayQuantity, long minQuantity, long stopPrice) {
         mktDataUpdateSemaphore.acquire();
         DirectBuffer directBuffer = newOrderBuilder.compID(clientData.getCompID())
                 .clientOrderId(clientOrderId)
                 .traderMnemonic(BuilderUtil.fill(traderMnemonic, NewOrderEncoder.traderMnemonicLength()).getBytes())
                 .securityId(securityId)
-                .expireTime("20211230-23:00:00".getBytes())
+                .expireTime(expireTime.getBytes())
                 .orderType(OrdTypeEnum.valueOf(orderType))
                 .timeInForce(TimeInForceEnum.valueOf(timeInForce))
                 .side(SideEnum.valueOf(side))

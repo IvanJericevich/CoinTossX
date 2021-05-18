@@ -1,13 +1,13 @@
 /* Generated SBE (Simple Binary Encoding) message codec */
 package sbe.msg.marketData;
 
-import uk.co.real_logic.sbe.codec.java.CodecUtil;
+import uk.co.real_logic.sbe.codec.java.*;
 import uk.co.real_logic.agrona.MutableDirectBuffer;
 
 @SuppressWarnings("all")
 public class OrderExecutedWithPriceSizeEncoder
 {
-    public static final int BLOCK_LENGTH = 54;
+    public static final int BLOCK_LENGTH = 55;
     public static final int TEMPLATE_ID = 23;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -268,6 +268,11 @@ public class OrderExecutedWithPriceSizeEncoder
     public OrderExecutedWithPriceSizeEncoder traderMnemonic(final int value)
     {
         CodecUtil.int32Put(buffer, offset + 50, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return this;
+    }
+    public OrderExecutedWithPriceSizeEncoder side(final SideEnum value)
+    {
+        CodecUtil.charPut(buffer, offset + 54, value.value());
         return this;
     }
 }

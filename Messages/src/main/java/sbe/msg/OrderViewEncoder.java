@@ -1,13 +1,13 @@
 /* Generated SBE (Simple Binary Encoding) message codec */
 package sbe.msg;
 
-import uk.co.real_logic.sbe.codec.java.CodecUtil;
+import uk.co.real_logic.sbe.codec.java.*;
 import uk.co.real_logic.agrona.MutableDirectBuffer;
 
 @SuppressWarnings("all")
 public class OrderViewEncoder
 {
-    public static final int BLOCK_LENGTH = 37;
+    public static final int BLOCK_LENGTH = 38;
     public static final int TEMPLATE_ID = 93;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -203,6 +203,11 @@ public class OrderViewEncoder
     public OrderViewEncoder traderMnemonic(final int value)
     {
         CodecUtil.int32Put(buffer, offset + 33, value, java.nio.ByteOrder.LITTLE_ENDIAN);
+        return this;
+    }
+    public OrderViewEncoder executionType(final ExecutionTypeEnum value)
+    {
+        CodecUtil.charPut(buffer, offset + 37, value.value());
         return this;
     }
 }

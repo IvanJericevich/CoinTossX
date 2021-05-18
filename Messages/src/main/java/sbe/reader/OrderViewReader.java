@@ -1,5 +1,6 @@
 package sbe.reader;
 
+import sbe.msg.ExecutionTypeEnum;
 import sbe.msg.MessageHeaderDecoder;
 import sbe.msg.OrderViewDecoder;
 import sbe.msg.SideEnum;
@@ -22,6 +23,7 @@ public class OrderViewReader implements Serializable {
     private long price;
     private int orderQuantity;
     private int traderMnemonic;
+    private ExecutionTypeEnum executionType;
 
     public OrderViewReader(){
         bufferIndex = 0;
@@ -48,6 +50,7 @@ public class OrderViewReader implements Serializable {
         price = orderView.price().mantissa();
         orderQuantity = orderView.orderQuantity();
         traderMnemonic = orderView.traderMnemonic();
+        executionType = orderView.executionType();
     }
 
     public int getCompID() {
@@ -84,5 +87,9 @@ public class OrderViewReader implements Serializable {
 
     public int getTraderMnemonic() {
         return traderMnemonic;
+    }
+
+    public ExecutionTypeEnum getExecutionType() {
+        return executionType;
     }
 }

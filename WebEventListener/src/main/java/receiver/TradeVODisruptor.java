@@ -5,6 +5,7 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import sbe.msg.marketData.SideEnum;
 
 public class TradeVODisruptor {
     private Disruptor<TradeVOMessageEvent> disruptor;
@@ -32,7 +33,7 @@ public class TradeVODisruptor {
         ringBuffer = disruptor.start();
     }
 
-    public void addTradeVO(int securityId,int tradeId,int clientOrderId,int price,int quantity,long executedTime,int traderMnemonic){
+    public void addTradeVO(int securityId, int tradeId, int clientOrderId, int price, int quantity, long executedTime, int traderMnemonic, SideEnum side){
         long sequence = ringBuffer.next();
         TradeVOMessageEvent event = ringBuffer.get(sequence);
 
@@ -43,6 +44,7 @@ public class TradeVODisruptor {
         event.setQuantity(quantity);
         event.setExecutedTime(executedTime);
         event.setTraderMnemonic(traderMnemonic);
+        event.setSide(side);
 
         ringBuffer.publish(sequence);
     }

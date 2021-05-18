@@ -1,9 +1,6 @@
 package sbe.builder;
 
-import sbe.msg.MessageHeaderEncoder;
-import sbe.msg.OrderCancelRequestEncoder;
-import sbe.msg.OrderViewEncoder;
-import sbe.msg.SideEnum;
+import sbe.msg.*;
 import uk.co.real_logic.agrona.DirectBuffer;
 import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 
@@ -24,6 +21,7 @@ public class OrderViewBuilder {
     private long price;
     private int orderQuantity;
     private int traderMnemonic;
+    private ExecutionTypeEnum executionType;
 
     public static int BUFFER_SIZE = 106;
 
@@ -83,6 +81,11 @@ public class OrderViewBuilder {
         return this;
     }
 
+    public OrderViewBuilder executionType(ExecutionTypeEnum value){
+        this.executionType = value;
+        return this;
+    }
+
     public DirectBuffer build(){
         if(orderId == 0){
             return null;
@@ -109,6 +112,7 @@ public class OrderViewBuilder {
 
         orderView.orderQuantity(orderQuantity);
         orderView.traderMnemonic(traderMnemonic);
+        orderView.executionType(executionType);
 
         return encodeBuffer;
     }

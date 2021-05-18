@@ -71,12 +71,13 @@ public enum MarketData {
     }
 
 
-    public void addTrade(long tradeId,int clientOrderId,long price,long quantity,long executedTime,int traderMnemonic){
+    public void addTrade(long tradeId,int clientOrderId,long price,long quantity,int side,long executedTime,int traderMnemonic){
         OrderExecutedWithPriceSizeBuilder orderExecutedBuilder = new OrderExecutedWithPriceSizeBuilder();
         mktData.add(orderExecutedBuilder.messageType(MessageTypeEnum.OrderExecutedPriceSize)
                 .tradeId((int) tradeId)
                 .clientOrderId(clientOrderId)
                 .price((int) price)
+                .side(side == 1 ? SideEnum.Buy : SideEnum.Sell)
                 .executedQuantity((int) quantity)
                 .printable(PrintableEnum.Printable)
                 .instrumentId((int)securityId)

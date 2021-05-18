@@ -1,6 +1,7 @@
 package receiver;
 
 import com.lmax.disruptor.EventFactory;
+import sbe.msg.marketData.SideEnum;
 
 public class TradeVOMessageEvent {
     private int securityId;
@@ -10,6 +11,7 @@ public class TradeVOMessageEvent {
     private long clientOrderId;
     private long executedTime;
     private int traderMnemonic;
+    private SideEnum side;
 
     private final static EventFactory<TradeVOMessageEvent> EVENT_FACTORY = () -> new TradeVOMessageEvent();
 
@@ -69,5 +71,11 @@ public class TradeVOMessageEvent {
 
     public int getTraderMnemonic() {
         return traderMnemonic;
+    }
+
+    public void setSide(SideEnum side) { this.side = side; }
+
+    public SideEnum getSide() {
+        return side;
     }
 }

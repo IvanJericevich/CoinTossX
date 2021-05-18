@@ -15,7 +15,7 @@ public class Utilities {
     private static Properties properties = new Properties();
 
     private static void loadProperties(Properties properties) throws IOException {
-        try (InputStream inputStream = new FileInputStream(Paths.get("").toAbsolutePath().getParent() + "/ClientSimulator/build/install/ClientSimulator/resources/simulation.properties")) {
+        try (InputStream inputStream = new FileInputStream(Paths.get("").toAbsolutePath() + "/CoinTossX/ClientSimulator/build/install/ClientSimulator/resources/simulation.properties")) {
             if (inputStream != null) {
                 properties.load(inputStream);
             } else {

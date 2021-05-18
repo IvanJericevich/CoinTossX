@@ -1,13 +1,13 @@
 /* Generated SBE (Simple Binary Encoding) message codec */
 package sbe.msg;
 
-import uk.co.real_logic.sbe.codec.java.CodecUtil;
+import uk.co.real_logic.sbe.codec.java.*;
 import uk.co.real_logic.agrona.DirectBuffer;
 
 @SuppressWarnings("all")
 public class OrderViewDecoder
 {
-    public static final int BLOCK_LENGTH = 37;
+    public static final int BLOCK_LENGTH = 38;
     public static final int TEMPLATE_ID = 93;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -317,7 +317,7 @@ public class OrderViewDecoder
 
     public static int traderMnemonicId()
     {
-        return 7;
+        return 8;
     }
 
     public static String traderMnemonicMetaAttribute(final MetaAttribute metaAttribute)
@@ -350,6 +350,29 @@ public class OrderViewDecoder
     public int traderMnemonic()
     {
         return CodecUtil.int32Get(buffer, offset + 33, java.nio.ByteOrder.LITTLE_ENDIAN);
+    }
+
+
+    public static int executionTypeId()
+    {
+        return 9;
+    }
+
+    public static String executionTypeMetaAttribute(final MetaAttribute metaAttribute)
+    {
+        switch (metaAttribute)
+        {
+            case EPOCH: return "unix";
+            case TIME_UNIT: return "nanosecond";
+            case SEMANTIC_TYPE: return "";
+        }
+
+        return "";
+    }
+
+    public ExecutionTypeEnum executionType()
+    {
+        return ExecutionTypeEnum.get(CodecUtil.charGet(buffer, offset + 37));
     }
 
 }

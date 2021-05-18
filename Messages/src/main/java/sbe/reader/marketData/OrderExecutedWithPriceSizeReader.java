@@ -1,6 +1,7 @@
 package sbe.reader.marketData;
 
 import sbe.msg.marketData.OrderExecutedWithPriceSizeDecoder;
+import sbe.msg.marketData.SideEnum;
 import uk.co.real_logic.agrona.DirectBuffer;
 
 import java.io.UnsupportedEncodingException;
@@ -18,6 +19,7 @@ public class OrderExecutedWithPriceSizeReader {
     private int instrumentId;
     private long executedTime;
     private int traderMnemonic;
+    private SideEnum side;
 
     public OrderExecutedWithPriceSizeReader(){
         sb = new StringBuilder();
@@ -49,6 +51,7 @@ public class OrderExecutedWithPriceSizeReader {
         sb.append("InstrumentId=" + orderExecutedWithPriceSize.instrumentId());
         sb.append("ExecutedTime=" + orderExecutedWithPriceSize.executedTime());
         sb.append("TraderMnemonic" + orderExecutedWithPriceSize.traderMnemonic());
+        sb.append("Side" + orderExecutedWithPriceSize.side());
 
         return sb;
     }
@@ -75,6 +78,7 @@ public class OrderExecutedWithPriceSizeReader {
         instrumentId = (int)orderExecutedWithPriceSize.instrumentId();
         executedTime = orderExecutedWithPriceSize.executedTime();
         traderMnemonic = orderExecutedWithPriceSize.traderMnemonic();
+        side = orderExecutedWithPriceSize.side();
     }
 
     public int getExecutedQuantity() {
@@ -103,5 +107,9 @@ public class OrderExecutedWithPriceSizeReader {
 
     public int getTraderMnemonic() {
         return traderMnemonic;
+    }
+
+    public SideEnum getSide() {
+        return side;
     }
 }

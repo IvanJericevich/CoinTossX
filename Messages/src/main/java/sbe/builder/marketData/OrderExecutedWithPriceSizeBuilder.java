@@ -1,9 +1,6 @@
 package sbe.builder.marketData;
 
-import sbe.msg.marketData.MessageHeaderEncoder;
-import sbe.msg.marketData.MessageTypeEnum;
-import sbe.msg.marketData.OrderExecutedWithPriceSizeEncoder;
-import sbe.msg.marketData.PrintableEnum;
+import sbe.msg.marketData.*;
 import uk.co.real_logic.agrona.DirectBuffer;
 import uk.co.real_logic.agrona.concurrent.UnsafeBuffer;
 
@@ -27,6 +24,7 @@ public class OrderExecutedWithPriceSizeBuilder {
     private int instrumentId;
     private long executedTime;
     private int traderMnemonic;
+    private SideEnum side;
 
     public static int BUFFER_SIZE = 62;
 
@@ -95,6 +93,11 @@ public class OrderExecutedWithPriceSizeBuilder {
         return this;
     }
 
+    public OrderExecutedWithPriceSizeBuilder side(SideEnum value){
+        this.side = value;
+        return this;
+    }
+
     public DirectBuffer build(){
         bufferIndex = 0;
         messageHeader.wrap(encodeBuffer, bufferIndex)
@@ -117,7 +120,8 @@ public class OrderExecutedWithPriceSizeBuilder {
                 .printable(printable)
                 .instrumentId(instrumentId)
                 .executedTime(executedTime)
-                .traderMnemonic(traderMnemonic);
+                .traderMnemonic(traderMnemonic)
+                .side(side);
 
         orderExecutedWithPriceSize.price().mantissa(price);
 

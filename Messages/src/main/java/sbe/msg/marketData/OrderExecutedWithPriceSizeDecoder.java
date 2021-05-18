@@ -1,13 +1,13 @@
 /* Generated SBE (Simple Binary Encoding) message codec */
 package sbe.msg.marketData;
 
-import uk.co.real_logic.sbe.codec.java.CodecUtil;
+import uk.co.real_logic.sbe.codec.java.*;
 import uk.co.real_logic.agrona.DirectBuffer;
 
 @SuppressWarnings("all")
 public class OrderExecutedWithPriceSizeDecoder
 {
-    public static final int BLOCK_LENGTH = 54;
+    public static final int BLOCK_LENGTH = 55;
     public static final int TEMPLATE_ID = 23;
     public static final int SCHEMA_ID = 1;
     public static final int SCHEMA_VERSION = 0;
@@ -454,7 +454,7 @@ public class OrderExecutedWithPriceSizeDecoder
 
     public static int traderMnemonicId()
     {
-        return 3;
+        return 12;
     }
 
     public static String traderMnemonicMetaAttribute(final MetaAttribute metaAttribute)
@@ -487,6 +487,29 @@ public class OrderExecutedWithPriceSizeDecoder
     public int traderMnemonic()
     {
         return CodecUtil.int32Get(buffer, offset + 50, java.nio.ByteOrder.LITTLE_ENDIAN);
+    }
+
+
+    public static int sideId()
+    {
+        return 13;
+    }
+
+    public static String sideMetaAttribute(final MetaAttribute metaAttribute)
+    {
+        switch (metaAttribute)
+        {
+            case EPOCH: return "unix";
+            case TIME_UNIT: return "nanosecond";
+            case SEMANTIC_TYPE: return "";
+        }
+
+        return "";
+    }
+
+    public SideEnum side()
+    {
+        return SideEnum.get(CodecUtil.charGet(buffer, offset + 54));
     }
 
 }
