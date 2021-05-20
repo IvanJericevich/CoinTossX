@@ -152,13 +152,12 @@ public enum ExecutionReportData {
                 .orderQuantity(aggOrder.getQuantity())
                 .price(aggOrder.getPrice())
                 .side(aggOrder.getSide() == 1 ? SideEnum.Buy : SideEnum.Sell)
-                .executionType(executionType)
                 .submittedTime(java.time.Instant.now().toEpochMilli())
                 .securityId((int)securityId)
                 .traderMnemonic(aggOrder.getTrader());
     }
 
     public DirectBuffer getOrderView(){
-        return orderViewBuilder.build();
+        return orderViewBuilder.executionType(executionType).build();
     }
 }

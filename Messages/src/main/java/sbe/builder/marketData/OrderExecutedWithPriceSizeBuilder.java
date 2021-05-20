@@ -26,7 +26,7 @@ public class OrderExecutedWithPriceSizeBuilder {
     private int traderMnemonic;
     private SideEnum side;
 
-    public static int BUFFER_SIZE = 62;
+    public static int BUFFER_SIZE = 63;
 
     public OrderExecutedWithPriceSizeBuilder(){
         orderExecutedWithPriceSize = new OrderExecutedWithPriceSizeEncoder();

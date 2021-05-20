@@ -4,6 +4,7 @@ import org.junit.Test;
 import sbe.builder.marketData.OrderExecutedWithPriceSizeBuilder;
 import sbe.msg.marketData.MessageTypeEnum;
 import sbe.msg.marketData.PrintableEnum;
+import sbe.msg.marketData.SideEnum;
 import uk.co.real_logic.agrona.DirectBuffer;
 
 import java.time.Instant;
@@ -49,6 +50,7 @@ public class OrderExecutedWithPriceSizeReaderTest {
                 .instrumentId(1)
                 .executedTime(java.time.Instant.now().toEpochMilli())
                 .traderMnemonic(1)
+                .side(SideEnum.Buy)
                 .build();
 
     }

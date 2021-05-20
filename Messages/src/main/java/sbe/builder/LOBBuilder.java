@@ -16,7 +16,6 @@ public class LOBBuilder {
 
     private int compID;
     private int securityId;
-    private int clientOrderId;
     private ObjectArrayList<Order> orders;
 
     public static int BUFFER_SIZE = 17000;
@@ -71,7 +70,7 @@ public class LOBBuilder {
             Order order = orders.get(i);
             if(order != null) {
                 LOBEncoder.OrdersEncoder oe = ordersEncoder.next();
-                oe.clientOrderId(clientOrderId);
+                oe.clientOrderId(order.getClientOrderId());
                 oe.orderId(order.getOrderId());
                 oe.orderQuantity(order.getOrderQuantity());
                 oe.side(order.getSide());
@@ -90,13 +89,6 @@ public class LOBBuilder {
         private int clientOrderId;
 
         public Order(){}
-
-        public Order(int orderId, int orderQuantity, SideEnum side, long price){
-            this.orderId = orderId;
-            this.orderQuantity = orderQuantity;
-            this.side = side;
-            this.price = price;
-        }
 
         public Order(int clientOrderId, int orderId, int orderQuantity, SideEnum side, long price){
             this.clientOrderId = clientOrderId;

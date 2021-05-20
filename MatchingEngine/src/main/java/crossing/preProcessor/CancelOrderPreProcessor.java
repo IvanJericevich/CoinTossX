@@ -26,8 +26,6 @@ public class CancelOrderPreProcessor implements MatchingPreProcessor {
     }
 
     private MATCHING_ACTION process(OrderBook orderBook,OrderEntry orderEntry) {
-        populateExecutionData(orderEntry);
-
         boolean isParkedOrder = MatchingUtil.isParkedOrder(orderEntry);
         OrderBook.SIDE side = OrderBook.getSide(orderEntry.getSide());
         BPlusTree<Long, OrderList> tree = getTree(side,orderBook,orderEntry,isParkedOrder);
@@ -37,8 +35,8 @@ public class CancelOrderPreProcessor implements MatchingPreProcessor {
         if(orderList != null) {
             Iterator<OrderListCursor> orderListIterator = orderList.iterator();
             while (orderListIterator.hasNext()) {
-                //orderListIterator.next().value.getOrderId() == orderEntry.getOrderId()
-                if (orderListIterator.next().value.getClientOrderId() == orderEntry.getOrigClientOrderId()) {
+                if (orderListIterator.next().value.getClientOrderId() == orderEntry.getClientOrderId()) {
+                    populateExecutionData(orderEntry); // Only populate execution report if the cancel order was executed
                     orderListIterator.remove();
                 }
             }

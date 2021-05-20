@@ -2,7 +2,7 @@ package crossing.postProcessor;
 
 import bplusTree.BPlusTree;
 import crossing.expireRule.ExpireRule;
-import crossing.expireRule.MarketOrderExpireRule;
+import crossing.expireRule.ContinousTradingExpireRule;
 import crossing.strategy.PriceTimePriorityStrategy;
 import leafNode.OrderList;
 import leafNode.OrderListCursor;
@@ -13,10 +13,11 @@ import java.util.Map;
 
 public class ExpireOrderPostProcessor implements MatchingPostProcessor{
 
-    private MarketOrderExpireRule marketOrderExpireRule = new MarketOrderExpireRule();
+    //private MarketOrderExpireRule marketOrderExpireRule = new MarketOrderExpireRule();
+    private ContinousTradingExpireRule continuousTradingExpireRule = new ContinousTradingExpireRule();
 
     public void postProcess(PriceTimePriorityStrategy priceTimePriorityStrategy,OrderBook orderBook) {
-        postProcess(orderBook, marketOrderExpireRule);
+        postProcess(orderBook, continuousTradingExpireRule);
     }
 
     public void postProcess(PriceTimePriorityStrategy priceTimePriorityStrategy,OrderBook orderBook,ExpireRule expireRule) {
