@@ -175,7 +175,7 @@ public class Client {
     public void cancelOrder(int originalClientOrderId, String traderMnemonic, String side, long price) {
         mktDataUpdateSemaphore.acquire();
         DirectBuffer directBuffer = orderCancelRequestBuilder.compID(clientData.getCompID())
-                .clientOrderId(-originalClientOrderId)
+                .clientOrderId(originalClientOrderId)
                 .traderMnemonic(BuilderUtil.fill(traderMnemonic, NewOrderEncoder.traderMnemonicLength()).getBytes())
                 .origClientOrderId(originalClientOrderId)
                 .securityId(securityId)
