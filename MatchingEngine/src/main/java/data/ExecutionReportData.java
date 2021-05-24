@@ -47,7 +47,7 @@ public enum ExecutionReportData {
     }
 
     public void addFillGroup(long id, long price, int quantity){
-        fillGroups.add("{" + id + "," + price + "," + quantity + "}");
+        fillGroups.add(id + "," + price + "," + quantity);
     }
 
     public ArrayList<String> getFillGroup(){
@@ -119,7 +119,7 @@ public enum ExecutionReportData {
     }
 
     public String buildExecutionReport(OrderEntry aggOrder,int securityId){
-        String report = Instant.now().getMillis() + "," + executionType  + "," + (aggOrder.getSide() == 1 ? SideEnum.Buy : SideEnum.Sell) + "," + TraderDAO.getTraderById(aggOrder.getTrader()) + ",{" + String.join(",", fillGroups) + "}";
+        String report = executionType  + "," + (aggOrder.getSide() == 1 ? SideEnum.Buy : SideEnum.Sell) + "," + TraderDAO.getTraderById(aggOrder.getTrader()) + "|" + String.join("|", fillGroups);
         return report;
 //        String execId = BuilderUtil.fill("Exec" + Instant.now().getMillis(), ExecutionReportEncoder.executionIDLength());
 //        String acc= BuilderUtil.fill("test123", ExecutionReportEncoder.accountLength());
