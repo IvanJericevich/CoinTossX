@@ -100,7 +100,9 @@ public class PriceTimePriorityStrategy implements MatchingLogic {
             }
 
             MarketData.INSTANCE.buildAddOrder(orderEntry, false);
-            ExecutionReportData.INSTANCE.addFillGroup(orderEntry.getClientOrderId(), orderEntry.getPrice(), orderEntry.getDisplayQuantity());
+            if(orderEntry.getType() != OrderType.MARKET.getOrderType()){​
+                ExecutionReportData.INSTANCE.addFillGroup(orderEntry.getClientOrderId(), orderEntry.getPrice(), orderEntry.getDisplayQuantity());
+            }
         }
     }
 
