@@ -35,7 +35,7 @@ public class CancelOrderPreProcessor implements MatchingPreProcessor {
         if(orderList != null) {
             Iterator<OrderListCursor> orderListIterator = orderList.iterator();
             while (orderListIterator.hasNext()) {
-                if (orderListIterator.next().value.getClientOrderId() == orderEntry.getClientOrderId()) {
+                if (orderListIterator.next().value.getClientOrderId() == orderEntry.getOrigClientOrderId()) {
                     populateExecutionData(orderEntry); // Only populate execution report if the cancel order was executed
                     orderListIterator.remove();
                 }
