@@ -81,59 +81,59 @@ public class GatewayClientImpl implements GatewayClient,FragmentHandler {
     public void onFragment(DirectBuffer buffer, int offset, int length, Header header) {
         temp.wrap(buffer,offset,length);
 
-        try {
-            messageHeaderDecoder.wrap(temp, 0);
-            int templateId = messageHeaderDecoder.templateId();
-            if (templateId == 0) {
-                mktDataMessageHeader.wrap(temp,0);
-                templateId = mktDataMessageHeader.templateId();
-            }
-
-            switch (templateId) {
-                case 26: readBidAsk();break;
-                case 27: readSymbolStatus();break;
-                case 95: readVWAP();break;
-                case 91: readAdminMessage(); break;
-                case 94: readLOB(); break;
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            messageHeaderDecoder.wrap(temp, 0);
+//            int templateId = messageHeaderDecoder.templateId();
+//            if (templateId == 0) {
+//                mktDataMessageHeader.wrap(temp,0);
+//                templateId = mktDataMessageHeader.templateId();
+//            }
+//
+//            switch (templateId) {
+//                case 26: readBidAsk();break;
+//                case 27: readSymbolStatus();break;
+//                case 95: readVWAP();break;
+//                case 91: readAdminMessage(); break;
+//                case 94: readLOB(); break;
+//            }
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
     }
 
-    private void readBidAsk() throws Exception {
-        bidAskReader.read(temp);
+//    private void readBidAsk() throws Exception {
+//        bidAskReader.read(temp);
+//
+//        bidAskDisruptor.addBidAsk(bidAskReader.getInstrumentId(),bidAskReader.getBid(),bidAskReader.getBidQuantity(),
+//                bidAskReader.getOffer(),bidAskReader.getOfferQuantity());
+//    }
 
-        bidAskDisruptor.addBidAsk(bidAskReader.getInstrumentId(),bidAskReader.getBid(),bidAskReader.getBidQuantity(),
-                bidAskReader.getOffer(),bidAskReader.getOfferQuantity());
-    }
-
-    private void readAdminMessage() throws Exception {
-        adminReader.read(temp);
-        for (int i = 0; i < listenerSize; i++) {
-            listeners.get(i).processAdminMessage(adminReader.getCompId(),adminReader.getSecurityId(),adminReader.getAdminTypeEnum());
-        }
-    }
-
-    private void readSymbolStatus() throws Exception {
-        symbolStatusReader.read(temp);
-        for (int i = 0; i < listenerSize; i++) {
-            listeners.get(i).symbolStatus(symbolStatusReader.getSecurityId(), symbolStatusReader.getSessionChangedReason(), symbolStatusReader.getTradingSession(), symbolStatusReader.getStaticPriceReference(), symbolStatusReader.getDynamicPriceReference());
-        }
-    }
-
-    private void readVWAP() throws Exception {
-        vwapReader.read(temp);
-        for (int i = 0; i < listenerSize; i++) {
-            listeners.get(i).readVWAP(vwapReader);
-        }
-    }
-
-    private void readLOB() throws Exception {
-        lobReader.read(temp);
-        for (int i = 0; i < listenerSize; i++) {
-            listeners.get(i).readLOB(lobReader);
-        }
-    }
+//    private void readAdminMessage() throws Exception {
+//        adminReader.read(temp);
+//        for (int i = 0; i < listenerSize; i++) {
+//            listeners.get(i).processAdminMessage(adminReader.getCompId(),adminReader.getSecurityId(),adminReader.getAdminTypeEnum());
+//        }
+//    }
+//
+//    private void readSymbolStatus() throws Exception {
+//        symbolStatusReader.read(temp);
+//        for (int i = 0; i < listenerSize; i++) {
+//            listeners.get(i).symbolStatus(symbolStatusReader.getSecurityId(), symbolStatusReader.getSessionChangedReason(), symbolStatusReader.getTradingSession(), symbolStatusReader.getStaticPriceReference(), symbolStatusReader.getDynamicPriceReference());
+//        }
+//    }
+//
+//    private void readVWAP() throws Exception {
+//        vwapReader.read(temp);
+//        for (int i = 0; i < listenerSize; i++) {
+//            listeners.get(i).readVWAP(vwapReader);
+//        }
+//    }
+//
+//    private void readLOB() throws Exception {
+//        lobReader.read(temp);
+//        for (int i = 0; i < listenerSize; i++) {
+//            listeners.get(i).readLOB(lobReader);
+//        }
+//    }
 }

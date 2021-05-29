@@ -73,7 +73,7 @@ public class Example {
         client.getBidQuantity(); // Best bid volume
         client.getOffer(); // Best ask price
         client.getOfferQuantity(); // Best ask volume
-        client.waitForMarketDataUpdate(); // Pauses the client until a new event occurs
+        //client.waitForMarketDataUpdate(); // Pauses the client until a new event occurs
         client.isAuction(); // Current trading session
 
         //----- End trading session by logging out client and closing connections -----//
