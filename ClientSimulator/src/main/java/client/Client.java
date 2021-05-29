@@ -17,7 +17,7 @@ public class Client {
 
     private GatewayClient tradingGatewayPub;
 //    private TradingGatewaySubscriber tradingGatewaySubscriber;
-//    private MulticastMDGSubscriber marketDataGatewaySubscriber;
+    private MulticastMDGSubscriber marketDataGatewaySubscriber;
 //    private ClientMDGSubscriber clientMDGSubscriber;
 //    private GatewayClient marketDataGatewayPub;
 
@@ -40,7 +40,7 @@ public class Client {
     private long staticPriceReference;
     private long dynamicPriceReference;
 
-//    private NonBlockingSemaphore mktDataUpdateSemaphore = new NonBlockingSemaphore(1);
+   private NonBlockingSemaphore mktDataUpdateSemaphore = new NonBlockingSemaphore(1);
 //    private NonBlockingSemaphore snapShotSemaphore = new NonBlockingSemaphore(1);
 
     public Client(ClientData clientData, int securityId){
@@ -63,13 +63,13 @@ public class Client {
 //        marketDataGatewayPub.connectInput(url, streamId);
 //    }
 //
-//    public void initMulticastMarketDataGatewaySub(Properties properties) {
-//        String url = properties.get("MDG_MULTICAST_URL").toString();
-//        int streamId = Integer.parseInt(properties.get("MDG_MULTICAST_STREAM_ID").toString());
-//        marketDataGatewaySubscriber = new MulticastMDGSubscriber(url, streamId, this, mktDataUpdateSemaphore);
-//        Thread thread = new Thread(marketDataGatewaySubscriber);
-//        thread.start();
-//    }
+   public void initMulticastMarketDataGatewaySub(Properties properties) {
+       String url = properties.get("MDG_MULTICAST_URL").toString();
+       int streamId = Integer.parseInt(properties.get("MDG_MULTICAST_STREAM_ID").toString());
+       marketDataGatewaySubscriber = new MulticastMDGSubscriber(url, streamId, this, mktDataUpdateSemaphore);
+       Thread thread = new Thread(marketDataGatewaySubscriber);
+       thread.start();
+   }
 //
 //    public void initClientMarketDataGatewaySub() {
 //        String url = clientData.getMdgOutputURL();
@@ -81,7 +81,7 @@ public class Client {
 
     public void init(Properties properties) throws Exception {
         //initClientMarketDataGatewaySub();
-        //initMulticastMarketDataGatewaySub(properties);
+        initMulticastMarketDataGatewaySub(properties);
         //initTradingGatewaySub();
         loginToTradingGatewayPub();
         //initMarketDataGatewayPub();
@@ -143,16 +143,16 @@ public class Client {
 //        }
         tradingGatewayPub.disconnectInput();
         //tradingGatewaySubscriber.close();
-//        marketDataGatewaySubscriber.close();
+        marketDataGatewaySubscriber.close();
 //        clientMDGSubscriber.close();
 //        marketDataGatewayPub.disconnectInput();
         System.out.println("Logged out.");
     }
 
-    //public void waitForMarketDataUpdate() { while(!mktDataUpdateSemaphore.acquire()){} }
+    public void waitForMarketDataUpdate() { while(!mktDataUpdateSemaphore.acquire()){} }
 
     public void submitOrder(int clientOrderId, String traderMnemonic, long volume, long price, String side, String orderType, String timeInForce, String expireTime, long displayQuantity, long minQuantity, long stopPrice) {
-        //mktDataUpdateSemaphore.acquire();
+        mktDataUpdateSemaphore.acquire();
         DirectBuffer directBuffer = newOrderBuilder.compID(clientData.getCompID())
                 .clientOrderId(clientOrderId)
                 .traderMnemonic(BuilderUtil.fill(traderMnemonic, NewOrderEncoder.traderMnemonicLength()).getBytes())
@@ -168,12 +168,12 @@ public class Client {
                 .stopPrice(stopPrice)
                 .build();
         tradingGatewayPub.send(directBuffer);
-        //waitForMarketDataUpdate();
+        waitForMarketDataUpdate();
         System.out.println("Message=OrderAdd|OrderId=" + clientOrderId + "|Trader=" + traderMnemonic + "|Type=" + orderType + "|Side=" + side + "|Volume=" + volume + "(" + displayQuantity + ")" + "|Price=" + price + "|StopPrice=" + stopPrice + "|TIF=" + timeInForce + "|MES=" + minQuantity);
     }
 
     public void cancelOrder(int originalClientOrderId, String traderMnemonic, String side, long price) {
-        //mktDataUpdateSemaphore.acquire();
+        mktDataUpdateSemaphore.acquire();
         DirectBuffer directBuffer = orderCancelRequestBuilder.compID(clientData.getCompID())
                 .clientOrderId(-originalClientOrderId)
                 .traderMnemonic(BuilderUtil.fill(traderMnemonic, NewOrderEncoder.traderMnemonicLength()).getBytes())
@@ -183,7 +183,7 @@ public class Client {
                 .limitPrice(price)
                 .build();
         tradingGatewayPub.send(directBuffer);
-        //waitForMarketDataUpdate();
+        waitForMarketDataUpdate();
         System.out.println("Message=OrderCancel|OrderId=" + originalClientOrderId);
     }
 
