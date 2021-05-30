@@ -124,7 +124,8 @@ public class MDGClientProcessor implements FragmentHandler,Runnable {
             offHeapStorage.updateHawkesSimulationStatus(true);
             offHeapStorage.updateHawkesSimulation(clientId, true);
         }else if(adminTypeEnum.equals(AdminTypeEnum.EndMessage)) {
-            offHeapStorage.updateHawkesSimulation(clientId, false);
+            clear();
+            //offHeapStorage.updateHawkesSimulation(clientId, false);
         }else if(adminTypeEnum == AdminTypeEnum.WarmUpComplete){
             clear();
             offHeapStorage.updateWarmupSimulation(clientId, false);

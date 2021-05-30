@@ -124,7 +124,7 @@ public class   CrossingProcessor implements LOBManager {
             }break;
             case BestBidOfferRequest:resendBBO(securityId);break;
             case StartMessage:MarketData.INSTANCE.addStartMessage(securityId);break;
-            case EndMessage:MarketData.INSTANCE.addEndMessage(securityId);break;
+            case EndMessage:MarketData.INSTANCE.addEndMessage(securityId);warmupComplete();break;
             default: return;
         }
     }
